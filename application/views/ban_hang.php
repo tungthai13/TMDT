@@ -62,20 +62,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             <?php include 'menu.php';?>
 
             <div class="container" id="container1">
-                <div id="mySidenav" class="sidenav">
-                    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-                    <a href="<?php echo base_url() ?>BanHang/danhSachCuaHang?maTaiKhoan=1" id="dsch">Cửa hàng</a>
-                    <a href="#">Thực đơn</a>
-                    <a href="#">Clients</a>
-                    <a href="#">Contact</a>
-                </div>
+                <?php include 'menu_ban_hang.php' ?>
                 <div id="main">
-                    <br>
-                    <span style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776; Menu</span>
-<!--                    <input type="hidden" id="maTaiKhoan" value="1" />-->
+
+                    <input type="hidden" id="maTaiKhoan" value="1" />
                     <div id="content">
-                    
-            
+
+
                     </div>
                 </div>
             </div>
@@ -90,7 +83,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     </body>
 
     </html>
-<script>
+    <script>
         function openNav() {
             document.getElementById("mySidenav").style.width = "300px";
         }

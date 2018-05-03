@@ -62,39 +62,39 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             <?php include 'menu.php';?>
 
             <div class="container" id="container1">
-                <div id="mySidenav" class="sidenav">
-                    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-                    <a href="<?php echo base_url() ?>BanHang/danhSachCuaHang?maTaiKhoan=1" id="dsch">Cửa hàng</a>
-                    <a href="#">Thực đơn</a>
-                    <a href="#">Clients</a>
-                    <a href="#">Contact</a>
-                </div>
+                <?php include 'menu_ban_hang.php' ?>
                 <div id="main">
-                    <br>
-                    <span style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776; Menu</span>
+
                     <input type="hidden" id="maTaiKhoan" value="1" />
                     <div id="content">
                         <table class="table table-striped">
-                            <h2>Danh sách cửa hàng</h2>
-
+                           <div class="row">
+                               <div class="col-md-4"><h2>Danh sách cửa hàng</h2></div>
+                               <div class="col-md-8">
+                                   <a style="float: right" href="<?php echo base_url() ?>BanHang/trangThemSanPham?maCuaHang=<?php echo $maCuaHang?>" class="btn btn-primary">Thêm sản phẩm</a>
+                               </div>
+                           </div>
+                            
                             <thead>
                                 <tr>
-                                    <th>Mã sản phẩm</th>
+                                    <th>STT</th>
                                     <th>Tên sản phẩm</th>
                                     <th>Đơn giá</th>
                                     <th>Số lần đặt</th>
                                     <th>Xem chi tiết</th>
+                                    <th>Xóa sản phẩm</th>
                                 </tr>
                             </thead>
                             <tbody>
 
                                 <?php
+                                    $count = 1;
                                     foreach( $danhSachSanPham->result() as $row ) :
                                     
                                 ?>
                                     <tr>
                                         <td>
-                                            <?php echo $row->ma_san_pham ?>
+                                            <?php echo $count++ ?>
                                         </td>
                                         <td>
                                             <?php echo $row->ten_san_pham ?>
@@ -105,9 +105,20 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                         <td>
                                             <?php echo $row->so_lan_dat ?>
                                         </td>
-                                        <td><a href="<?php echo base_url() ?>BanHang/danhSachCuaHang?maSanPham=1&maCuaHang="<?php echo $row->ma_cua_hang ?>>Xem</a></td>
+                                        <td>
+                                            <a class="btn btn-info" href="<?php echo base_url() ?>BanHang/chiTietSanPham?maSanPham=<?php echo $row->ma_san_pham?>&maCuaHang=<?php echo $maCuaHang?>">Xem</a>
+                                        </td>
+                                        <td>
+                                            <form id="xoaSanPham" action="<?php echo base_url() ?>BanHang/xoaSanPham" method="post" onclick="return confirm('Bạn chắc chắn muốn xóa sản phẩm này?')">
+                                               <input type="hidden" name="maCuaHang" value="<?php echo $maCuaHang?>" />
+                                               <input type="hidden" name="maSanPham" value="<?php echo $row->ma_san_pham?>" />
+                                               <input class="btn btn-danger" type="submit" value="Xóa"/>
+                                            </form>
+                                        </td>
                                     </tr>
-                                <?php endforeach; ?>
+                                    <?php 
+                                        endforeach; 
+                                    ?>
                             </tbody>
 
                         </table>
