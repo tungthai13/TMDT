@@ -1,0 +1,339 @@
+* {
+  margin: 0px;
+  padding: 0px; }
+
+@media (min-width: 320px) {
+  #menu .bg-menu {
+    background: #f8f8f8 !important;
+    border: 1px solid #ccc; }
+  #menu .login {
+    text-align: center;
+    border: 1px solid green;
+    margin-right: 12px; }
+    #menu .login a {
+      padding: 6px;
+      color: green;
+      text-decoration: none; }
+      #menu .login a:hover {
+        color: #fff; }
+    #menu .login:hover {
+      background: green; }
+  #menu .globe {
+    text-align: center; }
+    #menu .globe a {
+      text-decoration: none;
+      color: green; } }
+#all {
+  margin-top: 62px;
+  background: #f8f8f8; }
+  #all #banner {
+    background: url("../image/banner.jpg") no-repeat;
+    width: 100%; }
+    #all #banner .list-hot ul {
+      width: 320px;
+      list-style: none;
+      padding-left: 15px; }
+      #all #banner .list-hot ul li {
+        border-radius: 5px;
+        border-bottom: 2px solid #fff; }
+        #all #banner .list-hot ul li .item {
+          background: #ccc url("../image/bg-li.gif");
+          margin-top: 2px;
+          padding: 6px; }
+          #all #banner .list-hot ul li .item img {
+            border: 3px solid #fff;
+            border-radius: 100%; }
+    #all #banner .slogan {
+      text-align: center;
+      color: #fff;
+      font-weight: 500;
+      font-size: 18px; }
+      #all #banner .slogan .xam {
+        background: #ccc;
+        opacity: 0.9; }
+      #all #banner .slogan .xanh {
+        background: green;
+        opacity: 0.9; }
+      #all #banner .slogan .do {
+        background: red;
+        opacity: 0.9; }
+      #all #banner .slogan p {
+        padding-top: 12px; }
+  #all #content {
+    width: 100%; }
+    #all #content .select {
+      margin-top: 12px; }
+      #all #content .select .chon {
+        padding: 12px; }
+      #all #content .select .tab ul li {
+        display: inline-block;
+        padding: 12px; }
+        #all #content .select .tab ul li:hover {
+          background: #fff;
+          border-bottom: 1px solid red;
+          margin-left: 0px;
+          color: red;
+          cursor: pointer; }
+        #all #content .select .tab ul li .btn-close {
+          position: relative;
+          top: 1px;
+          right: 0px; }
+      #all #content .select .tab ul .active-slide {
+        background: #fff;
+        border-bottom: 1px solid red;
+        margin-left: 0px;
+        color: red;
+        cursor: pointer; }
+    #all #content .product .item-product {
+      background: #fff;
+      overflow: hidden;
+      margin-bottom: 24px;
+      border: 1px solid #ccc;
+    }
+
+      #all #content .product .item-product .image > a {
+        overflow: hidden;
+        width: 100%;
+        height: 250px; }
+        #all #content .product .item-product .image > a img {
+          width: 100%;
+          height: 300px;
+          border-radius: 100%;
+          padding: 12px; }
+          #all #content .product .item-product .image > a img:hover {
+            padding: 0px;
+            border-radius: 0px; }
+      #all #content .product .item-product .title {
+        margin-top: 18px;
+        padding: 6px; }
+        #all #content .product .item-product .title a {
+          text-decoration: none;
+          color: #000;
+          font-size: 14px; }
+          #all #content .product .item-product .title a .star > span {
+            padding: 9px;
+            background: green;
+            color: #fff;
+            border-radius: 100%;
+            margin: 3px;
+            float: left; }
+          #all #content .product .item-product .title a .address strong {
+            line-height: 1; }
+      #all #content .product .item-product .cach {
+        clear: both; }
+      #all #content .product .item-product .order {
+        margin-top: 12px;
+        overflow: hidden;
+        border-top: 1px solid #ccc;
+        text-align: center; }
+        #all #content .product .item-product .order .btn-submit {
+          cursor: pointer;
+          margin: 12px;
+          padding: 6px;
+          background: none;
+          outline: none;
+          border: 1px solid green;
+          color: green; }
+          #all #content .product .item-product .order .btn-submit span {
+            display: inline-block;
+            padding-left: 6px; }
+          #all #content .product .item-product .order .btn-submit:hover {
+            background: green;
+            color: #fff; }
+        #all #content .product .item-product .order .alert img {
+          width: 100%; }
+        #all #content .product .item-product .order .alert .star span {
+          display: inline-block;
+          padding: 12px;
+          border-radius: 100%;
+          background: green;
+          color: #fff; }
+        #all #content .product .item-product .order .alert .order-alert {
+          text-align: left;
+          padding-top: 24px; }
+          #all #content .product .item-product .order .alert .order-alert p strong {
+            display: inline-block;
+            width: 100px; }
+          #all #content .product .item-product .order .alert .order-alert a {
+            text-align: center;
+            text-decoration: none;
+            color: green;
+            padding: 15px;
+            margin-top: 12px;
+            border: 1px solid green;
+            display: inherit; }
+            #all #content .product .item-product .order .alert .order-alert a:hover {
+              background: green;
+              color: #fff; }
+        #all #content .product .item-product .order .alert .khac {
+          border-top: 1px solid #ccc;
+          margin-top: 12px;
+          padding-top: 12px; }
+          #all #content .product .item-product .order .alert .khac .item {
+            text-align: left;
+            background: #ccc;
+            padding: 6px;
+            cursor: pointer;
+            border: 3px solid #fff; }
+            #all #content .product .item-product .order .alert .khac .item .img {
+              display: inline-block;
+              float: left;
+              padding-right: 12px; }
+              #all #content .product .item-product .order .alert .khac .item .img img {
+                width: 50px;
+                height: 50px;
+                border-radius: 100%;
+                border: 3px solid #fff; }
+            #all #content .product .item-product .order .alert .khac .item .text {
+              margin-top: 12px; }
+              #all #content .product .item-product .order .alert .khac .item .text strong {
+                display: inline-table; }
+  #all #list-user {
+    margin-top: 24px;
+    margin-bottom: 24px;
+    background: #fff;
+    padding-bottom: 24px;
+    height: 141px; }
+    #all #list-user h4 {
+      padding-top: 12px;
+      border-bottom: 2px solid green;
+      display: inline; }
+    #all #list-user .row {
+      margin: 12px; }
+      #all #list-user .row .item-user {
+        position: absolute; }
+        #all #list-user .row .item-user img {
+          border: 1px solid #ccc;
+          border-radius: 100%; }
+        #all #list-user .row .item-user i {
+          position: relative;
+          bottom: -14px;
+          right: 14px;
+          color: green; }
+  #all #footer {
+    padding-top: 24px;
+    padding-bottom: 24px;
+    background: #464a4e;
+    color: #fff; }
+    #all #footer .about ul {
+      padding-left: 18px; }
+  #all #dat-mon .detail-order {
+    margin-top: 24px;
+    padding-top: 24px; }
+    #all #dat-mon .detail-order .container .row {
+      background: #fff; }
+      #all #dat-mon .detail-order .container .row .img {
+        margin-left: -15px; }
+      #all #dat-mon .detail-order .container .row img {
+        width: 100%;
+        height: 300px; }
+      #all #dat-mon .detail-order .container .row .btn-arrow {
+        margin-top: 12px; }
+        #all #dat-mon .detail-order .container .row .btn-arrow a {
+          text-decoration: none;
+          padding: 12px;
+          border: 1px solid green;
+          color: green; }
+          #all #dat-mon .detail-order .container .row .btn-arrow a:hover {
+            color: #fff;
+            background: green; }
+      #all #dat-mon .detail-order .container .row h4 {
+        padding-top: 72px; }
+      #all #dat-mon .detail-order .container .row .time {
+        margin-top: 12px;
+        color: #ccc; }
+        #all #dat-mon .detail-order .container .row .time p {
+          color: green;
+          font-weight: 500;
+          padding-top: 12px; }
+      #all #dat-mon .detail-order .container .row .price .table {
+        margin-top: 9px; }
+        #all #dat-mon .detail-order .container .row .price .table th, #all #dat-mon .detail-order .container .row .price .table td {
+          border: 1px solid #fff; }
+        #all #dat-mon .detail-order .container .row .price .table .btn-sucess {
+          padding: 6px;
+          border: 1px solid #000;
+          color: #000;
+          cursor: pointer; }
+          #all #dat-mon .detail-order .container .row .price .table .btn-sucess:hover {
+            background: #ccc; }
+        #all #dat-mon .detail-order .container .row .price .table a {
+          text-decoration: none;
+          color: green;
+          padding: 12px;
+          border: 1px solid green; }
+          #all #dat-mon .detail-order .container .row .price .table a:hover {
+            background: green;
+            color: #fff; }
+  #all #dat-mon .lien-quan {
+    margin-top: 24px; }
+    #all #dat-mon .lien-quan .box {
+      margin-top: 12px;
+      height: 80px;
+      overflow: hidden;
+      background: #fff; }
+      #all #dat-mon .lien-quan .box .left {
+        position: absolute;
+        display: inline-block; }
+        #all #dat-mon .lien-quan .box .left .img {
+          position: relative;
+          top: -12px;
+          display: inline-block; }
+          #all #dat-mon .lien-quan .box .left .img img {
+            width: 90px;
+            height: 90px; }
+        #all #dat-mon .lien-quan .box .left .item {
+          display: inline-block; }
+          #all #dat-mon .lien-quan .box .left .item strong {
+            font-size: 16px; }
+          #all #dat-mon .lien-quan .box .left .item span {
+            font-size: 12px;
+            color: #ccc; }
+      #all #dat-mon .lien-quan .box .right {
+        margin-top: 12px; }
+        #all #dat-mon .lien-quan .box .right strong {
+          padding-top: 12px;
+          color: green;
+          font-size: 20px;
+          font-weight: 500; }
+        #all #dat-mon .lien-quan .box .right i {
+          padding: 6px;
+          background: red;
+          color: #fff;
+          font-size: 20px;
+          border-radius: 5px;
+          cursor: pointer; }
+  #all #slide {
+    background: #464a4e; }
+    #all #slide .mySlides {
+      display: none; }
+    #all #slide .img-slide {
+      cursor: pointer; }
+    #all #slide .slide-w3 {
+      opacity: 0.5; }
+    #all #slide .demo {
+      display: inline-block;
+      margin-bottom: 6px;
+      margin-top: 6px;
+      background-color: white;
+      padding: 3px;
+      border-radius: 18px;
+      cursor: pointer; }
+      #all #slide .demo .item-img {
+        display: inline-block;
+        float: left;
+        padding-right: 12px; }
+        #all #slide .demo .item-img img {
+          border-radius: 100%;
+          border: 2px solid #fff; }
+      #all #slide .demo .para span {
+        line-height: 14px; }
+    #all #slide .section-demo {
+      margin-top: 12px;
+      margin-bottom: 12px;
+      cursor: pointer; }
+      #all #slide .section-demo button {
+        cursor: pointer;
+        padding: 0px 12px 0px 12px; }
+
+/*# sourceMappingURL=app.css.map */
