@@ -56,10 +56,8 @@
         ?>
         <input type="hidden" id="tenCuaHang" value="<?php echo $row->ten_cua_hang ?>"/>
         <input type="hidden" id="diaChiCuaHang" value="<?php echo $row->dia_chi ?>"/>
-        <input type="hidden" id="diemCham" value="<%=diemCham%>"/>
-        <input type="hidden" id="maTaiKhoan" value="<%=maTaiKhoan%>"/>
+        <input type="hidden" id="diemCham" value=""/>
         
-
         <div id="all">
             <!--menu-->
             <?php include "menu.php" ?>

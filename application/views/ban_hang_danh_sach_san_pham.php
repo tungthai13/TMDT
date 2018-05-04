@@ -69,7 +69,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <div id="content">
                         <table class="table table-striped">
                            <div class="row">
-                               <div class="col-md-4"><h2>Danh sách cửa hàng</h2></div>
+                               <div class="col-md-4"><h2>Danh sách sản phẩm</h2></div>
                                <div class="col-md-8">
                                    <a style="float: right" href="<?php echo base_url() ?>BanHang/trangThemSanPham?maCuaHang=<?php echo $maCuaHang?>" class="btn btn-primary">Thêm sản phẩm</a>
                                </div>

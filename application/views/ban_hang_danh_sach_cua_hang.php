@@ -68,8 +68,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <input type="hidden" id="maTaiKhoan" value="1" />
                     <div id="content">
                         <table class="table table-striped">
-                            <h2>Danh sách cửa hàng</h2>
-
+                            <div class="row">
+                               <div class="col-md-4"><h2>Danh sách cửa hàng</h2></div>
+                               <div class="col-md-8">
+                                   <a style="float: right" href="<?php echo base_url() ?>BanHang/trangThemCuaHang?maTaiKhoan=<?php echo $maTaiKhoan?>" class="btn btn-primary">Thêm cửa hàng</a>
+                               </div>
+                           </div>
                             <thead>
                                 <tr>
                                     <th>STT</th>
