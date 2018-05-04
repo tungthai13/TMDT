@@ -6,7 +6,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <html lang="en">
 
     <head>
-        <?php include 'head.php';?>
+        <?php include 'head.php'  ;?>
         <style>
             .sidenav {
                 height: 100%;
@@ -19,6 +19,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 overflow-x: hidden;
                 transition: 0.5s;
                 padding-top: 60px;
+
+                
             }
 
             .sidenav a {
