@@ -57,6 +57,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <body>
 
         <div id="all">
+           
             <!--menu-->
             <?php include 'menu.php';?>
 
