@@ -54,8 +54,8 @@
        <?php 
             $row = $cuaHang->row();
         ?>
-        <input type="hidden" id="tenCH" value="<?php echo $row->ten_cua_hang ?>"/>
-        <input type="hidden" id="dcCH" value="<?php echo $row->dia_chi ?>"/>
+        <input type="hidden" id="tenCuaHang" value="<?php echo $row->ten_cua_hang ?>"/>
+        <input type="hidden" id="diaChiCuaHang" value="<?php echo $row->dia_chi ?>"/>
         <input type="hidden" id="diemCham" value="<%=diemCham%>"/>
         <input type="hidden" id="maTaiKhoan" value="<%=maTaiKhoan%>"/>
         
@@ -99,10 +99,12 @@
 
                             </div>
                             <div class="col-md-4 price">
-                                <form action="ChuanBiThanhToan" method="POST" onsubmit="return kiemTraGioHangRong();">
+                                <form action="#" method="POST" onsubmit="return kiemTraGioHangRong();">
                                     <!--Mã cửa hàng-->
-                                    <input type="hidden" name="maCuaHang" id="maCuaHang" value="1"/>
-                                    
+                                    <input type="hidden" name="maTaiKhoan" id="maTaiKhoan" value="1"/>
+                                    <input type="hidden" name="maCuaHang" id="maCuaHang" value="<?php echo $row->ma_cua_hang ?>"/>
+                                    <input type="hidden" id="tenCuaHang" name="tenCuaHang" value="<?php echo $row->ten_cua_hang ?>"/>
+                                    <input type="hidden" id="diaChiCuaHang" name="diaChiCuaHang" value="<?php echo $row->dia_chi ?>"/>
                                     <table class="table">
                                         <thead>
                                             <tr>                      
@@ -114,13 +116,11 @@
                                             <tr id="gioHang">
 
                                                 <td>Tổng </td>
-                                                <td id="money"> 0 đ </td>
+                                                <td id="money"> 0 VNĐ </td>
                                             </tr>
                                             <tr>
                                                 <td>      
                                                     <input type="hidden" id="json" name="json" value=""/>
-                                                    <input type="hidden" id="tenCuaHang" name="tenCuaHang" value=""/>
-                                                    <input type="hidden" id="diaChiCuaHang" name="diaChiCuaHang" value=""/>
                                                     <input type="submit" class="pull-right btn btn-success" value="Đặt Mua"/>
                                                 </td>
                                             </tr>
@@ -202,7 +202,7 @@
 <script src="<?php echo base_url("js/chamdiem.js"); ?>"></script>
 
 <!--script xử lý giỏ hàng-->
-<script src="<?php echo base_url("js/xulygiohang.js?v=4"); ?>"></script>
+<script src="<?php echo base_url("js/xulygiohang.js?v=7"); ?>"></script>
 
 <!--Script xử lý google map-->
 <script src="<?php echo base_url("js/xulygooglemap.js"); ?>"></script>

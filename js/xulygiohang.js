@@ -14,9 +14,9 @@ function kiemTraGioHangRong() {
     }
 }
 
-$("#quayLai").click(function () {
-    window.location.href = "index.jsp";
-});
+//$("#quayLai").click(function () {
+//    window.location.href = "index.jsp";
+//});
 
 //Lay thong tin gio Hang
 var maTaiKhoan1 = document.getElementById("maTaiKhoan").value;
@@ -26,10 +26,13 @@ var maCuaHang = document.getElementById("maCuaHang").value;
 document.getElementById("json").value = localStorage.getItem("gioHang" + maCuaHang+ "_" + maTaiKhoan1);
 var gioHang = [];
 
+//Kiểm tra giỏ hàng của cửa hàng này tồn tại hay không
+//Định dạng gioHang12_2: giỏ hàng của cửa hàng có mã là 12 và mã tài khoản là 2
 if (localStorage.getItem("gioHang" + maCuaHang + "_" + maTaiKhoan1) !== null) {
     gioHang = JSON.parse(localStorage.getItem("gioHang" + maCuaHang + "_" + maTaiKhoan1));
     capNhatGioHang();
 } else {
+    //Nếu chưa tồn tại thì tạo mới
     localStorage.setItem("gioHang" + maCuaHang + "_" + maTaiKhoan1, JSON.stringify(gioHang));
 }
 
@@ -44,8 +47,8 @@ function themMon(id) {
             gioHang[layViTriTrongGioHang(id)].soLuong = gioHang[layViTriTrongGioHang(id)].soLuong + 1;
         } else {
             monAn = {
-                maMon: id,
-                tenMon: tenMon,
+                maSanPham: id,
+                tenSanPham: tenMon,
                 soLuong: 1,
                 donGia: donGia
             };
@@ -67,6 +70,7 @@ function botMon(id) {
         if (layViTriTrongGioHang(id) !== -1) {
             gioHang[layViTriTrongGioHang(id)].soLuong = gioHang[layViTriTrongGioHang(id)].soLuong - 1;
             if (gioHang[layViTriTrongGioHang(id)].soLuong === 0) {
+                //Xóa món ăn đó trong mảng gioHang
                 gioHang.splice(layViTriTrongGioHang(id), 1);
             }
         }
@@ -77,15 +81,16 @@ function botMon(id) {
     };
 }
 
-for (var i = 1; i <= listThucDon.length; i++) {
-    themMon(i);
-    botMon(i);
-
+for (var i = 0; i < listThucDon.length; i++) {
+    //Tách chuỗi, lấy mã sản phẩm trong phần id
+    var id = listThucDon[i].getAttribute("id").slice(4); //Loại từ them trong id cua the, VD: them12345 => 12345; them12 => 12
+    themMon(id);
+    botMon(id);
 }
 
 function layViTriTrongGioHang(maMon) {
     for (var i = 0; i < gioHang.length; i++) {
-        if (gioHang[i].maMon == maMon) {
+        if (gioHang[i].maSanPham == maMon) {
             return i;
         }
     }
@@ -100,7 +105,7 @@ function capNhatGioHang() {
     var tongTien = 0;
     for (var i = 0; i < gioHang.length; i++) {
         var html = '<tr>' +
-                '<td> <strong> ' + gioHang[i].soLuong + ' </strong>' + gioHang[i].tenMon + '</td>' +
+                '<td> <strong> ' + gioHang[i].soLuong + ' </strong>' + gioHang[i].tenSanPham + '</td>' +
                 '<td> giá: ' + formatCurrency(gioHang[i].donGia+"") + ' VNĐ </td> </tr>';
         tongTien += gioHang[i].donGia * gioHang[i].soLuong;
         x.push(html);
@@ -113,8 +118,6 @@ function capNhatGioHang() {
             '   <tr>  ' +
             '          <td>' +
             '<input type="hidden" id="json" name="json" value=""/>' +
-            '<input type="hidden" id="tenCuaHang" name="tenCuaHang" value=""/>' +
-            '<input type="hidden" id="diaChiCuaHang" name="diaChiCuaHang" value=""/>' +
             '<input type="submit" class="pull-right btn btn-success" value="Đặt Mua"/>' +
             '</td>  ' +
             '  </tr>  ';
@@ -126,8 +129,6 @@ function capNhatGioHang() {
 
     localStorage.setItem("gioHang" + maCuaHang + "_" + maTaiKhoan1, JSON.stringify(gioHang));
     document.getElementById("json").value = localStorage.getItem("gioHang" + maCuaHang + "_" + maTaiKhoan1);
-    document.getElementById("tenCuaHang").value = document.getElementById("tenCH").value;
-    document.getElementById("diaChiCuaHang").value = document.getElementById("dcCH").value;
 }
 
 $("#reset").click(function () {
@@ -141,14 +142,10 @@ $("#reset").click(function () {
             '   <tr>  ' +
             '          <td>' +
             '<input type="hidden" id="json" name="json" value=""/>' +
-            '<input type="hidden" id="tenCuaHang" name="tenCuaHang" value=""/>' +
-            '<input type="hidden" id="diaChiCuaHang" name="diaChiCuaHang" value=""/>' +
             '<input type="submit" class="pull-right btn btn-success" value="Đặt Mua"/>' +
             '</td>  ' +
             '  </tr>  ';
     $("tBody").prepend(html);
-    document.getElementById("tenCuaHang").value = document.getElementById("tenCH").value;
-    document.getElementById("diaChiCuaHang").value = document.getElementById("dcCH").value;
 });
 
 function formatCurrency(numberStr) {
