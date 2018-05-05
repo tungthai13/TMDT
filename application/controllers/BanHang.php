@@ -7,7 +7,16 @@ class BanHang extends CI_Controller {
 	public function index()
 	{
         $this->load->helper('url');
-		$this->load->view('ban_hang');
+        $this->load->database();
+        
+        $data["maTaiKhoan"] = $this->input->get("maTaiKhoan");
+        
+        if (mysqli_more_results($this->db->conn_id)) {
+            mysqli_next_result($this->db->conn_id);
+        }
+        $sql = $this->db->query("call tongSoCuaHangCaNhan(?)", $data["maTaiKhoan"]);
+        $data["tongSoCuaHang"] = $sql->row()->tong_so_cua_hang;
+        $this->load->view("ban_hang", $data);
 	}
     
     public function danhSachCuaHang($maTaiKhoan = null){
@@ -50,6 +59,7 @@ class BanHang extends CI_Controller {
         
         //Upload ảnh
         if (!empty($_FILES['picture']['name'])) {
+            $config['encrypt_name'] = TRUE;
             $config['upload_path'] = 'image';
             $config['allowed_types'] = 'jpg|jpeg|png|gif';
             $config['file_name'] = $_FILES['picture']['name'];
@@ -96,6 +106,7 @@ class BanHang extends CI_Controller {
         
         //Upload ảnh
         if (!empty($_FILES['picture']['name'])) {
+            $config['encrypt_name'] = TRUE;
             $config['upload_path'] = 'image';
             $config['allowed_types'] = 'jpg|jpeg|png|gif';
             $config['file_name'] = $_FILES['picture']['name'];
@@ -170,6 +181,7 @@ class BanHang extends CI_Controller {
         $data["lng"] = $this->input->post("lng");
         //Upload ảnh
         if (!empty($_FILES['picture']['name'])) {
+            $config['encrypt_name'] = TRUE;
             $config['upload_path'] = 'image';
             $config['allowed_types'] = 'jpg|jpeg|png|gif';
             $config['file_name'] = $_FILES['picture']['name'];
@@ -234,6 +246,7 @@ class BanHang extends CI_Controller {
 
         //Upload ảnh
         if (!empty($_FILES['picture']['name'])) {
+            $config['encrypt_name'] = TRUE;
             $config['upload_path'] = 'image';
             $config['allowed_types'] = 'jpg|jpeg|png|gif';
             $config['file_name'] = $_FILES['picture']['name'];
@@ -265,10 +278,17 @@ class BanHang extends CI_Controller {
         $this->danhSachCuaHang($maTaiKhoan);
     }
     
-    public function test(){
-
-        $this->load->view("test");
+    public function xoaCuaHang(){
+        $this->load->helper('url');
+        $this->load->database();
+        
+        $data['maCuaHang'] = $this->input->post("maCuaHang");
+        $maTaiKhoan = $this->input->post("maTaiKhoan");
+        $this->db->query("call xoaCuaHang(?)", $data['maCuaHang']);
+        
+        $this->danhSachCuaHang($maTaiKhoan);
     }
+    
     
     
     

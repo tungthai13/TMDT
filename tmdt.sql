@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: May 05, 2018 at 11:36 AM
+-- Generation Time: May 05, 2018 at 09:19 PM
 -- Server version: 10.1.31-MariaDB
 -- PHP Version: 7.1.15
 
@@ -52,6 +52,12 @@ BEGIN
 	SELECT * FROM cua_hang WHERE cua_hang.ma_nguoi_quan_ly = maNguoiQuanLy;
 END$$
 
+DROP PROCEDURE IF EXISTS `danhSachCuaHangSlide`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `danhSachCuaHangSlide` ()  NO SQL
+BEGIN
+	SELECT * FROM cua_hang ORDER BY cua_hang.ma_cua_hang DESC limit 3;
+END$$
+
 DROP PROCEDURE IF EXISTS `danhSachQuanHuyen`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `danhSachQuanHuyen` (IN `maTinhThanh` INT)  NO SQL
 BEGIN
@@ -71,8 +77,8 @@ BEGIN
 END$$
 
 DROP PROCEDURE IF EXISTS `tatCaCuaHang`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `tatCaCuaHang` ()  BEGIN
-   SELECT *  FROM cua_hang;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `tatCaCuaHang` (IN `phanTuBatDau` INT, IN `phanTuTrongMotTrang` INT)  BEGIN
+   Select * from cua_hang limit phanTuBatDau,phanTuTrongMotTrang;
 END$$
 
 DROP PROCEDURE IF EXISTS `themCuaHang`$$
@@ -91,6 +97,24 @@ DROP PROCEDURE IF EXISTS `timCuaHangBangMaCuaHang`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `timCuaHangBangMaCuaHang` (IN `id` INT)  NO SQL
 BEGIN
 	SELECT * FROM cua_hang WHERE cua_hang.ma_cua_hang = id;
+END$$
+
+DROP PROCEDURE IF EXISTS `tongSoCuaHang`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `tongSoCuaHang` ()  NO SQL
+BEGIN
+	SELECT count(cua_hang.ma_cua_hang) as 'tongSoCuaHang' FROM cua_hang;
+END$$
+
+DROP PROCEDURE IF EXISTS `tongSoCuaHangCaNhan`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `tongSoCuaHangCaNhan` (IN `maTaiKhoan` INT)  NO SQL
+BEGIN
+	SELECT count(ma_cua_hang) as 'tong_so_cua_hang' FROM cua_hang WHERE cua_hang.ma_nguoi_quan_ly = maTaiKhoan;
+END$$
+
+DROP PROCEDURE IF EXISTS `xoaCuaHang`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `xoaCuaHang` (IN `maCuaHang` INT)  NO SQL
+BEGIN
+	DELETE FROM cua_hang WHERE cua_hang.ma_cua_hang = maCuaHang;
 END$$
 
 DROP PROCEDURE IF EXISTS `xoaSanPham`$$
@@ -159,17 +183,19 @@ CREATE TABLE IF NOT EXISTS `cua_hang` (
   PRIMARY KEY (`ma_cua_hang`),
   KEY `FKcua_hang268799` (`ma_quan_huyen`),
   KEY `FKcua_hang380667` (`ma_nguoi_quan_ly`)
-) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `cua_hang`
 --
 
 INSERT INTO `cua_hang` (`ma_cua_hang`, `ten_cua_hang`, `dia_chi`, `ma_quan_huyen`, `mo_ta`, `logo`, `ma_nguoi_quan_ly`, `gio_mo_cua`, `gio_dong_cua`, `so_dien_thoai`, `trang_thai_cua_hang`, `lat`, `lng`, `tong_diem`, `so_luot_cham`) VALUES
-(1, 'Sumo BBQ Big C', '222 Trần Duy Hưng, Trung Hoà, Cầu Giấy, Hà Nội', 3, NULL, 'sumo1.png', 1, '9:00', '22:00', 912345678, 2, 21.0072697, 105.79325659999995, 10, 1),
 (2, 'Popeyes Giảng Võ', 'D2 Giảng Võ, Khu tập thể Giảng Võ, Ba Đình, Hà Nội', 5, NULL, 'popeyes1.jpg', 1, '9:00', '22:00', 123456789, 2, 21.025006, 105.82140300000003, 10, 1),
 (3, 'gà Mạnh Hoạch - Hà Đông', '283 Tô Hiệu, Hà Cầu, Hà Đông, Hanoi, Vietnam', 1, NULL, 'gamanhhoach3.jpg', 1, '7:00', '22:00', 2147483647, 2, 20.9640618, 105.77409969999997, 10, 1),
-(20, 'Phở 10 Lý Quốc Sư - Hoàng Minh Giám', 'N2A Hoàng Minh Giám, Quận Thanh Xuân, Hà Nội', 2, NULL, 'lyquocsu.jpeg', 1, '8:00', '22:00', 987654321, 2, 21.0035481, 105.79958269999997, 10, 1);
+(20, 'Phở 10 Lý Quốc Sư - Hoàng Minh Giám', 'N2A Hoàng Minh Giám, Quận Thanh Xuân, Hà Nội', 2, NULL, 'lyquocsu.jpeg', 1, '8:00', '22:00', 987654321, 2, 21.0035481, 105.79958269999997, 10, 1),
+(21, 'Cơm Sườn Nướng 47 - Đào Duy Từ', '47 Đào Duy Từ, Quận Hoàn Kiếm, Hà Nội', 11, NULL, 'logo-default.jpg', 1, '10:00', '15:00', 123, 2, 21.0358212, 105.85283950000007, 10, 1),
+(22, 'Miri Miri - Cơm Văn Phòng Online', '2 Ngõ 92 Trần Đại Nghĩa, Quận Hai Bà Trưng, Hà Nội', 4, NULL, 'logo-default.jpg', 1, '9:00', '20:00', 123, 2, 20.9972097, 105.84530689999997, 10, 1),
+(23, 'Eatwell - Healthy Food', 'C17, Ngõ 131 Nguyễn Thị Định, Quận Cầu Giấy, Hà Nội', 13, NULL, 'logo-default.jpg', 1, '10:00', '22:00', 123, 2, 21.0078887, 105.80526029999999, 10, 1);
 
 -- --------------------------------------------------------
 
@@ -378,10 +404,7 @@ CREATE TABLE IF NOT EXISTS `san_pham` (
 
 INSERT INTO `san_pham` (`ma_san_pham`, `ten_san_pham`, `don_gia`, `so_lan_dat`, `ten_nhom_san_pham`, `mo_ta`, `anh_minh_hoa`, `ma_cua_hang`, `trang_thai_san_pham`) VALUES
 (1, 'Thịt gà', 11000, 0, 'Món chính', NULL, 'anhMinhHoa11.jpg', 2, 1),
-(2, 'Thịt gà', 11000, 0, 'Món chính', NULL, 'anhMinhHoa11.jpg', 2, 1),
-(3, 'Thịt gà', 11000, 0, 'Món chính', NULL, 'anhMinhHoa11.jpg', 1, 1),
-(17, 'Thịt bò', 30000, 0, 'Món chính', NULL, 'logo-default.jpg', 1, 1),
-(18, 'Đùi gà 2', 61000, 0, 'Món khai vị', NULL, 'logo-default.jpg', 1, 1);
+(2, 'Thịt gà', 11000, 0, 'Món chính', NULL, 'anhMinhHoa11.jpg', 2, 1);
 
 -- --------------------------------------------------------
 
@@ -538,7 +561,7 @@ ALTER TABLE `quan_huyen`
 -- Constraints for table `san_pham`
 --
 ALTER TABLE `san_pham`
-  ADD CONSTRAINT `FKsan_pham78820` FOREIGN KEY (`ma_cua_hang`) REFERENCES `cua_hang` (`ma_cua_hang`);
+  ADD CONSTRAINT `FKsan_pham78820` FOREIGN KEY (`ma_cua_hang`) REFERENCES `cua_hang` (`ma_cua_hang`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `the_thanh_toan`

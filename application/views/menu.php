@@ -9,17 +9,14 @@
 
         <div class="collapse navbar-collapse" id="navbarsExampleDefault">
             <ul class="navbar-nav mr-auto">
-                <li class="nav-item active" style="margin-top: 4px;">
-                    <a id="nav0" onclick="foo();" class="nav-link" href="<?php echo site_url("Welcome/index");?>">Trang chủ <span class="sr-only">(current)</span></a>
+                <li class="nav-item" style="margin-top: 4px;">
+                    <a id='nav1' class="nav-link" href="#">Giỏ hàng </a>
                 </li>
                 <li class="nav-item" style="margin-top: 4px;">
-                    <a id='nav3' class="nav-link" href="#">Giỏ hàng </a>
+                    <a id='nav2' class="nav-link" href="#">Lịch sử mua hàng </a>
                 </li>
                 <li class="nav-item" style="margin-top: 4px;">
-                    <a id='nav1' class="nav-link" href="#">Lịch sử mua hàng </a>
-                </li>
-                <li class="nav-item" style="margin-top: 4px;">
-                    <a id='nav1' class="nav-link" href="<?php echo site_url("BanHang/index");?>">Cửa hàng của tôi </a>
+                    <a id='nav3' class="nav-link" href="<?php echo base_url();?>BanHang/index?maTaiKhoan=1">Cửa hàng của tôi </a>
                 </li>
                 <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</li>
                 <li>

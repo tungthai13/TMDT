@@ -22,15 +22,15 @@ class DatMon extends CI_Controller {
 	{
         $this->load->helper('url');
         $this->load->database();
-        $data['lat'] = $this->input->post('latHome');
-        $data['lng'] = $this->input->post('lngHome');
-        $data['maCuaHang'] = $this->input->post('maCuaHang');  
+        $data['maTaiKhoan'] = $this->input->post('maTaiKhoan'); 
+        $data['maCuaHang'] = $this->input->get('maCuaHang');  
         
         if (mysqli_more_results($this->db->conn_id)) {
             mysqli_next_result($this->db->conn_id);
         }
         $data['cuaHang'] = $this->db->query("call timCuaHangBangMaCuaHang(?)", $data['maCuaHang']);
-        
+        $data['lat'] = $data['cuaHang']->row()->lat;
+        $data['lng'] = $data['cuaHang']->row()->lng;
         if (mysqli_more_results($this->db->conn_id)) {
             mysqli_next_result($this->db->conn_id);
         }

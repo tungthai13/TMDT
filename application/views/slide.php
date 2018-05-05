@@ -8,35 +8,25 @@
                     <button onclick="plusDivs(1)">Next ❯</button>
 -->
                 </div>
-<!--
-                <% 
-                    List<CuaHang> cuaHangMoi = new CuaHangDAO().cuaHangBanChay();
-                    int dem = 1;
-                    for (CuaHang ch : cuaHangMoi) {
-                %>
--->
-                <div class="demo" onclick="currentDiv(<%=dem%>)" style="width: 400px; height: 110px">
+                <?php foreach($danhSachCuaHangSlide->result() as $row): ?>
+                <div class="demo" onclick="currentDiv(<%=dem%>)" style="width: 400px; height: 120px">
                     <div class="item-img">
-                        <img src="<?php echo base_url("image/logo-default.jpg") ?>" alt="" width="50" height="50">
+                        <img src="<?php echo base_url() ?>image/<?php echo $row->logo ?>" alt="" width="50" height="50">
                     </div>
                     <div class="para" style="padding-left: 62px">
-                        <p><strong>Tên cửa hàng</strong></p>
-                        <p>Địa chỉ</p>
+                        <p><strong><?php echo $row->ten_cua_hang ?></strong></p>
+                        <p><?php echo $row->dia_chi ?></p>
                     </div>
                 </div>
-<!--                <% dem++; } %>-->
+                <?php endforeach; ?>
             </div>
             <div class="col-md-7 img-slide">
-                <div onmouseover="stopShow()" onmouseout="runShow()">
-<!--
-<% 
-                        for (CuaHang ch : cuaHangMoi) {
-                    %>
--->
-                    <a href="#">
-                        <img class="mySlides" src="<?php echo base_url("image/logo-default.jpg") ?>" height="416" width="100%">
+                <div>
+                    <?php foreach($danhSachCuaHangSlide->result() as $row): ?>
+                    <a href="<?php echo base_url() ?>DatMon/index?maCuaHang=<?php echo $row->ma_cua_hang ?>">
+                        <img class="mySlides" src="<?php echo base_url() ?>image/<?php echo $row->logo ?>" height="416" width="100%">
                     </a>
-<!--                    <% ;} %>-->
+                    <?php endforeach; ?>
                 </div>
 
             </div>

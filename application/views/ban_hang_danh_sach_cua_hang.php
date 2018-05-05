@@ -81,6 +81,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     <th>Địa chỉ</th>
                                     <th>Thực đơn</th>
                                     <th>Chi tiết cửa hàng</th>
+                                    <th>Xóa cửa hàng</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -100,8 +101,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                         <td>
                                             <?php echo $row->dia_chi ?>
                                         </td>
-                                        <td><a href="<?php echo base_url() ?>BanHang/danhSachSanPham?maCuaHang=<?php echo $row->ma_cua_hang ?>">Xem</a></td>
-                                        <td><a href="<?php echo base_url() ?>BanHang/chiTietCuaHang?maCuaHang=<?php echo $row->ma_cua_hang ?>">Xem</a></td>
+                                        <td><a class="btn btn-info" href="<?php echo base_url() ?>BanHang/danhSachSanPham?maCuaHang=<?php echo $row->ma_cua_hang ?>">Xem</a></td>
+                                        <td><a class="btn btn-info" href="<?php echo base_url() ?>BanHang/chiTietCuaHang?maCuaHang=<?php echo $row->ma_cua_hang ?>">Xem</a></td>
+                                        <td>
+                                            <form id="xoaCuaHang" action="<?php echo base_url() ?>BanHang/xoaCuaHang" method="post" onclick="return confirm('Bạn chắc chắn muốn xóa sản phẩm này?')">
+                                               <input type="hidden" name="maCuaHang" value="<?php echo $row->ma_cua_hang?>" />
+                                               <input type="hidden" name="maTaiKhoan" value="<?php echo $maTaiKhoan?>" />
+                                               <input class="btn btn-danger" type="submit" value="Xóa"/>
+                                            </form>
+                                        </td>
                                     </tr>
                                     <?php endforeach; ?>
                             </tbody>

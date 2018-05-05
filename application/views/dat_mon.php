@@ -54,6 +54,7 @@
        <?php 
             $row = $cuaHang->row();
         ?>
+
         <input type="hidden" id="tenCuaHang" value="<?php echo $row->ten_cua_hang ?>"/>
         <input type="hidden" id="diaChiCuaHang" value="<?php echo $row->dia_chi ?>"/>
         <input type="hidden" id="diemCham" value=""/>
