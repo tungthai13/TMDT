@@ -80,6 +80,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     <th>Tên cửa hàng</th>
                                     <th>Địa chỉ</th>
                                     <th>Thực đơn</th>
+                                    <th>Chi tiết cửa hàng</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -100,6 +101,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                             <?php echo $row->dia_chi ?>
                                         </td>
                                         <td><a href="<?php echo base_url() ?>BanHang/danhSachSanPham?maCuaHang=<?php echo $row->ma_cua_hang ?>">Xem</a></td>
+                                        <td><a href="<?php echo base_url() ?>BanHang/chiTietCuaHang?maCuaHang=<?php echo $row->ma_cua_hang ?>">Xem</a></td>
                                     </tr>
                                     <?php endforeach; ?>
                             </tbody>
