@@ -18,8 +18,7 @@
                 </li>
                 <li class="nav-item" style="margin-top: 4px;">
                     <a id='nav3' class="nav-link" href="<?php echo base_url();?>BanHang/index?maTaiKhoan=1">Cửa hàng của tôi </a>
-                </li>
-                <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</li>
+                </li> 
                 <li>
                     <form class="form-inline" style="height: 49px;" action="index.jsp">
                         <label class="sr-only" for="inlineFormInput">Name</label>
@@ -33,12 +32,19 @@
             &nbsp;&nbsp;
             <div class="" id="login">
                 <?php  if (isset($_SESSION['user'])) { ?>
+                <p>
+                   
                 <form  method="post" action ="<?php echo base_url('khachhang/logout'); ?>">
-                    <button class="w3-button w3-green w3-large">Đăng Xuất</button>
+                     <span>chào, </span><strong><?php echo($_SESSION['user']['ten_khach_hang']); ?></strong> 
+                    <button class="w3-button w3-green">Đăng Xuất</button>
                 </form>
+                </p>
                 <?php }else{ ?>
-                
-                <button onclick="document.getElementById('id01').style.display='block'" class="w3-button w3-green w3-large">Đăng Nhập</button>
+                <p>
+                    <button onclick="document.getElementById('id01').style.display='block'" class="w3-button w3-green w3-margin-top">Đăng Nhập</button>
+
+                    <button onclick="document.getElementById('id02').style.display='block'" class="w3-button w3-blue w3-margin-top">Đăng Kí</button>
+                </p>
                 <?php } ?>
             </div>
  
@@ -55,6 +61,28 @@
                             <label><b>Mật khẩu</b></label>
                             <input class="w3-input w3-border" type="password" placeholder="Mật Khẩu" name="password" required>
                             <button class="w3-button w3-block w3-green w3-section w3-padding" type="submit">Đăng Nhập </button> 
+                        </div>
+                    </form> 
+                </div>
+            </div> 
+            <div id="id02" class="w3-modal">
+                <div class="w3-modal-content w3-card-4 w3-animate-zoom" style="max-width:600px">
+                    <div class="w3-center"><br>
+                        <span onclick="document.getElementById('id02').style.display='none'" class="w3-button w3-xlarge w3-hover-red w3-display-topright" title="Close Modal">&times;</span> 
+                    </div>
+                    <form class="w3-container" method="post" action ="<?php echo base_url('khachhang/dangki'); ?>">
+                        <div class="w3-section">
+                            <label><b>Tên</b></label>
+                            <input class="w3-input w3-border w3-margin-bottom" type="text" placeholder="Tên" name="username" required>
+                            <label><b>Email</b></label>
+                            <input class="w3-input w3-border w3-margin-bottom" type="email" placeholder="Email" name="email" required>
+                            <label><b>Số điện thoại</b></label>
+                            <input class="w3-input w3-border w3-margin-bottom" type="phone" placeholder="Số điện thoại" name="phone" required>
+                            <label><b>Tạo mật khẩu</b></label>
+                            <input class="w3-input w3-border" type="password" placeholder="Tạo mật khẩu" name="password" required>
+                            <label><b>Nhập lại mật khẩu</b></label>
+                            <input class="w3-input w3-border" type="password" placeholder="Nhập lại mật khẩu" name="password_again" required>
+                            <button class="w3-button w3-block w3-green w3-section w3-padding" type="submit">Đăng kí </button> 
                         </div>
                     </form> 
                 </div>

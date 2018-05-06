@@ -26,6 +26,21 @@ class Users extends CI_Model {
         $this->session->sess_destroy();
         redirect('','refresh');
     }
+    public function dangki()
+    {
+    	$username = $this->input->post('username');
+    	$email = $this->input->post('email');
+    	$phone = $this->input->post('phone');
+    	$password = $this->input->post('password'); 
+    	$data = array(
+    			'ten_khach_hang' => $username , 
+    			'email' => $email, 
+    			'so_dien_thoai' => $phone , 
+    			'mat_khau' => $password
+    	);
+    	$this->session->set_userdata('user',$data); 
+    	return $this->db->insert('khach_hang',$data);
+    }
 
 }
 

@@ -25,6 +25,18 @@ class Khachhang extends CI_Controller {
         $this->session->sess_destroy();
         redirect(base_url());
     }
+    public function dangki()
+    {
+    	$password = $this->input->post('password'); 
+    	$password_again = $this->input->post('password_again'); 
+    	if ($password == $password_again) {
+    		$this->users->dangki();
+    		redirect('','refresh');
+    	}else{
+    		redirect('','refresh');
+    	}
+    	
+    }
 
 }
 
