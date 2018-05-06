@@ -10,6 +10,7 @@
 <link rel="stylesheet" href="<?php echo base_url("css/phantrang.css"); ?>">
 <link rel="stylesheet" href="<?php echo base_url("css/bootstrap.min.css"); ?>">
 <link rel="stylesheet" href="<?php echo base_url("css/jquery.rateyo.min.css"); ?>">
+<link rel="stylesheet" href="<?php echo base_url("css/w3.css"); ?>">
 
 <style>
     .address {
