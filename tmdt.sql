@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: May 03, 2018 at 06:18 PM
+-- Generation Time: May 05, 2018 at 09:19 PM
 -- Server version: 10.1.31-MariaDB
 -- PHP Version: 7.1.15
 
@@ -28,6 +28,12 @@ DELIMITER $$
 --
 -- Procedures
 --
+DROP PROCEDURE IF EXISTS `capNhatCuaHang`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `capNhatCuaHang` (IN `tenCuaHang` VARCHAR(256) CHARSET utf8, IN `diaChi` VARCHAR(256) CHARSET utf8, IN `soDienThoai` VARCHAR(256) CHARSET utf8, IN `maQuanHuyen` INT, IN `gioMoCua` VARCHAR(256) CHARSET utf8, IN `gioDongCua` VARCHAR(256) CHARSET utf8, IN `logo` VARCHAR(256) CHARSET utf8, IN `lat` DOUBLE, IN `lng` DOUBLE, IN `maCuaHang` INT)  NO SQL
+BEGIN
+	UPDATE cua_hang SET cua_hang.ten_cua_hang = tenCuaHang, cua_hang.dia_chi = diaChi, cua_hang.so_dien_thoai = soDienThoai, cua_hang.ma_quan_huyen = maQuanHuyen, cua_hang.gio_mo_cua = gioMoCua, cua_hang.gio_dong_cua = gioDongCua, cua_hang.logo = logo, cua_hang.lat = lat, cua_hang.lng = lng WHERE cua_hang.ma_cua_hang = maCuaHang;
+END$$
+
 DROP PROCEDURE IF EXISTS `capNhatSanPham`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `capNhatSanPham` (IN `maSanPham` INT, IN `tenSanPham` VARCHAR(256) CHARSET utf8, IN `donGia` INT, IN `tenNhomSanPham` VARCHAR(256), IN `trangThaiSanPham` INT, IN `anhMinhHoa` VARCHAR(256) CHARSET utf8)  NO SQL
 BEGIN
@@ -46,15 +52,39 @@ BEGIN
 	SELECT * FROM cua_hang WHERE cua_hang.ma_nguoi_quan_ly = maNguoiQuanLy;
 END$$
 
+DROP PROCEDURE IF EXISTS `danhSachCuaHangSlide`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `danhSachCuaHangSlide` ()  NO SQL
+BEGIN
+	SELECT * FROM cua_hang ORDER BY cua_hang.ma_cua_hang DESC limit 3;
+END$$
+
+DROP PROCEDURE IF EXISTS `danhSachQuanHuyen`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `danhSachQuanHuyen` (IN `maTinhThanh` INT)  NO SQL
+BEGIN
+	SELECT * FROM quan_huyen WHERE quan_huyen.ma_tinh_thanh = maTinhThanh;
+END$$
+
 DROP PROCEDURE IF EXISTS `danhSachSanPham`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `danhSachSanPham` (IN `maCuaHang` INT)  NO SQL
 BEGIN
 	SELECT * FROM san_pham WHERE san_pham.ma_cua_hang = maCuaHang;
 END$$
 
+DROP PROCEDURE IF EXISTS `layMaQuanHuyen`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `layMaQuanHuyen` (IN `tenQuanHuyen` VARCHAR(256) CHARSET utf8)  NO SQL
+BEGIN
+	SELECT quan_huyen.ma_quan_huyen FROM quan_huyen WHERE quan_huyen.ten_quan_huyen = tenQuanHuyen;
+END$$
+
 DROP PROCEDURE IF EXISTS `tatCaCuaHang`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `tatCaCuaHang` ()  BEGIN
-   SELECT *  FROM cua_hang;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `tatCaCuaHang` (IN `phanTuBatDau` INT, IN `phanTuTrongMotTrang` INT)  BEGIN
+   Select * from cua_hang limit phanTuBatDau,phanTuTrongMotTrang;
+END$$
+
+DROP PROCEDURE IF EXISTS `themCuaHang`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `themCuaHang` (IN `maTaiKhoan` INT, IN `tenCuaHang` VARCHAR(256) CHARSET utf8, IN `diaChi` VARCHAR(256) CHARSET utf8, IN `soDienThoai` VARCHAR(256) CHARSET utf8, IN `gioMoCua` VARCHAR(256) CHARSET utf8, IN `gioDongCua` VARCHAR(256) CHARSET utf8, IN `maQuanHuyen` INT, IN `lat` DOUBLE, IN `lng` DOUBLE, IN `logo` VARCHAR(256) CHARSET utf8)  NO SQL
+BEGIN
+	INSERT INTO cua_hang (cua_hang.ma_nguoi_quan_ly, cua_hang.ten_cua_hang, cua_hang.dia_chi, cua_hang.so_dien_thoai, cua_hang.gio_mo_cua, cua_hang.gio_dong_cua, cua_hang.ma_quan_huyen, cua_hang.lat, cua_hang.lng, cua_hang.logo) values (maTaiKhoan, tenCuaHang, diaChi, soDienThoai, gioMoCua, gioDongCua, maQuanHuyen, lat, lng, logo);
 END$$
 
 DROP PROCEDURE IF EXISTS `themSanPham`$$
@@ -67,6 +97,24 @@ DROP PROCEDURE IF EXISTS `timCuaHangBangMaCuaHang`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `timCuaHangBangMaCuaHang` (IN `id` INT)  NO SQL
 BEGIN
 	SELECT * FROM cua_hang WHERE cua_hang.ma_cua_hang = id;
+END$$
+
+DROP PROCEDURE IF EXISTS `tongSoCuaHang`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `tongSoCuaHang` ()  NO SQL
+BEGIN
+	SELECT count(cua_hang.ma_cua_hang) as 'tongSoCuaHang' FROM cua_hang;
+END$$
+
+DROP PROCEDURE IF EXISTS `tongSoCuaHangCaNhan`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `tongSoCuaHangCaNhan` (IN `maTaiKhoan` INT)  NO SQL
+BEGIN
+	SELECT count(ma_cua_hang) as 'tong_so_cua_hang' FROM cua_hang WHERE cua_hang.ma_nguoi_quan_ly = maTaiKhoan;
+END$$
+
+DROP PROCEDURE IF EXISTS `xoaCuaHang`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `xoaCuaHang` (IN `maCuaHang` INT)  NO SQL
+BEGIN
+	DELETE FROM cua_hang WHERE cua_hang.ma_cua_hang = maCuaHang;
 END$$
 
 DROP PROCEDURE IF EXISTS `xoaSanPham`$$
@@ -127,7 +175,7 @@ CREATE TABLE IF NOT EXISTS `cua_hang` (
   `gio_mo_cua` varchar(10) NOT NULL,
   `gio_dong_cua` varchar(10) NOT NULL,
   `so_dien_thoai` int(11) NOT NULL,
-  `trang_thai_cua_hang` int(11) NOT NULL,
+  `trang_thai_cua_hang` int(11) NOT NULL DEFAULT '2',
   `lat` double DEFAULT NULL,
   `lng` double DEFAULT NULL,
   `tong_diem` int(11) NOT NULL DEFAULT '10',
@@ -135,15 +183,19 @@ CREATE TABLE IF NOT EXISTS `cua_hang` (
   PRIMARY KEY (`ma_cua_hang`),
   KEY `FKcua_hang268799` (`ma_quan_huyen`),
   KEY `FKcua_hang380667` (`ma_nguoi_quan_ly`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `cua_hang`
 --
 
 INSERT INTO `cua_hang` (`ma_cua_hang`, `ten_cua_hang`, `dia_chi`, `ma_quan_huyen`, `mo_ta`, `logo`, `ma_nguoi_quan_ly`, `gio_mo_cua`, `gio_dong_cua`, `so_dien_thoai`, `trang_thai_cua_hang`, `lat`, `lng`, `tong_diem`, `so_luot_cham`) VALUES
-(1, 'Sumo BBQ Big C', '222 Trần Duy Hưng, Trung Hoà, Cầu Giấy, Hà Nội', 1, NULL, 'logo-default.jpg', 1, '9:00', '22:00', 912345678, 2, 21.007341, 105.793425, 10, 1),
-(2, 'Popeyes Giảng Võ', 'D2 Giảng Võ, Khu tập thể Giảng Võ, Ba Đình, Hà Nội', 5, NULL, 'logo-default.jpg\r\n', 1, '9:00', '22:00', 123456789, 2, 21.026296, 105.822245, 10, 1);
+(2, 'Popeyes Giảng Võ', 'D2 Giảng Võ, Khu tập thể Giảng Võ, Ba Đình, Hà Nội', 5, NULL, 'popeyes1.jpg', 1, '9:00', '22:00', 123456789, 2, 21.025006, 105.82140300000003, 10, 1),
+(3, 'gà Mạnh Hoạch - Hà Đông', '283 Tô Hiệu, Hà Cầu, Hà Đông, Hanoi, Vietnam', 1, NULL, 'gamanhhoach3.jpg', 1, '7:00', '22:00', 2147483647, 2, 20.9640618, 105.77409969999997, 10, 1),
+(20, 'Phở 10 Lý Quốc Sư - Hoàng Minh Giám', 'N2A Hoàng Minh Giám, Quận Thanh Xuân, Hà Nội', 2, NULL, 'lyquocsu.jpeg', 1, '8:00', '22:00', 987654321, 2, 21.0035481, 105.79958269999997, 10, 1),
+(21, 'Cơm Sườn Nướng 47 - Đào Duy Từ', '47 Đào Duy Từ, Quận Hoàn Kiếm, Hà Nội', 11, NULL, 'logo-default.jpg', 1, '10:00', '15:00', 123, 2, 21.0358212, 105.85283950000007, 10, 1),
+(22, 'Miri Miri - Cơm Văn Phòng Online', '2 Ngõ 92 Trần Đại Nghĩa, Quận Hai Bà Trưng, Hà Nội', 4, NULL, 'logo-default.jpg', 1, '9:00', '20:00', 123, 2, 20.9972097, 105.84530689999997, 10, 1),
+(23, 'Eatwell - Healthy Food', 'C17, Ngõ 131 Nguyễn Thị Định, Quận Cầu Giấy, Hà Nội', 13, NULL, 'logo-default.jpg', 1, '10:00', '22:00', 123, 2, 21.0078887, 105.80526029999999, 10, 1);
 
 -- --------------------------------------------------------
 
@@ -292,7 +344,7 @@ CREATE TABLE IF NOT EXISTS `quan_huyen` (
   `ma_tinh_thanh` int(11) NOT NULL,
   PRIMARY KEY (`ma_quan_huyen`),
   KEY `FKquan_huyen271908` (`ma_tinh_thanh`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `quan_huyen`
@@ -303,7 +355,12 @@ INSERT INTO `quan_huyen` (`ma_quan_huyen`, `ten_quan_huyen`, `ma_tinh_thanh`) VA
 (2, 'Quận Thanh Xuân', 1),
 (3, 'Quận Đống Đa', 1),
 (4, 'Quận Hai Bà Trưng', 1),
-(5, 'Quận Ba Đình', 1);
+(5, 'Quận Ba Đình', 1),
+(11, 'Quận Hoàn Kiếm', 1),
+(12, 'Quận Tây Hồ', 1),
+(13, 'Quận Cầu Giấy', 1),
+(14, 'Quận Hoàng Mai', 1),
+(15, 'Quận Long Biên', 1);
 
 -- --------------------------------------------------------
 
@@ -339,7 +396,7 @@ CREATE TABLE IF NOT EXISTS `san_pham` (
   `trang_thai_san_pham` int(11) NOT NULL,
   PRIMARY KEY (`ma_san_pham`),
   KEY `FKsan_pham78820` (`ma_cua_hang`)
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `san_pham`
@@ -347,8 +404,7 @@ CREATE TABLE IF NOT EXISTS `san_pham` (
 
 INSERT INTO `san_pham` (`ma_san_pham`, `ten_san_pham`, `don_gia`, `so_lan_dat`, `ten_nhom_san_pham`, `mo_ta`, `anh_minh_hoa`, `ma_cua_hang`, `trang_thai_san_pham`) VALUES
 (1, 'Thịt gà', 11000, 0, 'Món chính', NULL, 'anhMinhHoa11.jpg', 2, 1),
-(2, 'Thịt gà', 11000, 0, 'Món chính', NULL, 'anhMinhHoa11.jpg', 2, 1),
-(3, 'Thịt gà', 11000, 0, 'Món chính', NULL, 'anhMinhHoa11.jpg', 1, 1);
+(2, 'Thịt gà', 11000, 0, 'Món chính', NULL, 'anhMinhHoa11.jpg', 2, 1);
 
 -- --------------------------------------------------------
 
@@ -505,7 +561,7 @@ ALTER TABLE `quan_huyen`
 -- Constraints for table `san_pham`
 --
 ALTER TABLE `san_pham`
-  ADD CONSTRAINT `FKsan_pham78820` FOREIGN KEY (`ma_cua_hang`) REFERENCES `cua_hang` (`ma_cua_hang`);
+  ADD CONSTRAINT `FKsan_pham78820` FOREIGN KEY (`ma_cua_hang`) REFERENCES `cua_hang` (`ma_cua_hang`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `the_thanh_toan`

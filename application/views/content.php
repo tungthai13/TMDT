@@ -20,7 +20,6 @@
 
         <!--Tab 1 content-->
         <div class="row product w3-container w3-display-container city tabLondon" id="London">
-
            <?php
                 foreach( $danhSachCuaHang->result() as $row ) :
                     
@@ -31,7 +30,7 @@
             <div class="col-md-4 default">
                 <div class="item-product">
                     <div class="image">
-                        <a href="#"><img src="<?php echo base_url() ?>image/<?php echo $row->logo ?>" alt=""></a>
+                        <a href="<?php echo base_url();?>DatMon/index?maCuaHang=<?php echo $row->ma_cua_hang ?>"><img src="<?php echo base_url() ?>image/<?php echo $row->logo ?>" alt=""></a>
 
                     </div>
                     <div class="title">
@@ -54,11 +53,9 @@
                     <div class="cach"></div>
                     <div class="order">
 <!--                       onsubmit="return kiemTraDangNhap();"-->
-                        <form action="<?php echo site_url('DatMon/index');?>" method="post">
-                            <input type="hidden" name="latHome" class="latHome" value="<?php echo $row->lat ?>" />
-                            <input type="hidden" name="lngHome" class="lngHome" value="<?php echo $row->lng ?>" />
-                            <input type="hidden" name="maCuaHang" value="<?php echo $row->ma_cua_hang ?>" />
-                            <input type="hidden" name="maTaiKhoan" class="maTaiKhoan" value="" />
+                        <form action="<?php echo base_url();?>DatMon/index?maCuaHang=<?php echo $row->ma_cua_hang ?>" method="post">
+                            
+                            <input type="hidden" name="maTaiKhoan" class="maTaiKhoan" value="1" />
 
                             <input type="submit" class="storeButton btn btn-submit" value="Đặt món" />
                         </form>
@@ -74,14 +71,22 @@
             <div class="col-md-12" align="center">
                 <nav aria-label="Page navigation example">
                     <ul class="pagination justify-content-center">
-                        <li class="page-item disabled">
-                            <a class="page-link" href="#" tabindex="-1">Previous</a>
-                        </li>
-                        <li class="page-item"><a class="page-link" href="#">1</a></li>
-                        <li class="page-item"><a class="page-link" href="#">2</a></li>
-                        <li class="page-item"><a class="page-link" href="#">3</a></li>
                         <li class="page-item">
-                            <a class="page-link" href="#">Next</a>
+                            <?php if($trangHienTai == 1){ ?>
+                            <a class="page-link" href="<?php echo base_url() ?>Welcome/index?trangHienTai=1" tabindex="-1">Previous</a>
+                            <?php } else { ?>
+                            <a class="page-link" href="<?php echo base_url() ?>Welcome/index?trangHienTai=<?php echo $trangHienTai-1; ?>" tabindex="-1">Previous</a>
+                            <?php } ?>
+                        </li>
+                        <?php for($i = 1; $i <= $tongSoTrang; $i++): ?>
+                        <li class="page-item"><a class="page-link" href="<?php echo base_url() ?>Welcome/index?trangHienTai=<?php echo $i?>"><?php echo $i?></a></li>
+                        <?php endfor; ?>
+                        <li class="page-item">
+                            <?php if($trangHienTai == $tongSoTrang){ ?>
+                            <a class="page-link" href="<?php echo base_url() ?>Welcome/index?trangHienTai=<?php echo $tongSoTrang; ?>">Next</a>
+                            <?php } else { ?>
+                            <a class="page-link" href="<?php echo base_url() ?>Welcome/index?trangHienTai=<?php echo $trangHienTai+1; ?>">Next</a>
+                            <?php } ?>                           
                         </li>
                     </ul>
                 </nav>
