@@ -33,7 +33,9 @@
             &nbsp;&nbsp;
             <div class="" id="login">
                 <?php  if (isset($_SESSION['user'])) { ?>
+                <form  method="post" action ="<?php echo base_url('khachhang/logout'); ?>">
                     <button class="w3-button w3-green w3-large">Đăng Xuất</button>
+                </form>
                 <?php }else{ ?>
                 
                 <button onclick="document.getElementById('id01').style.display='block'" class="w3-button w3-green w3-large">Đăng Nhập</button>

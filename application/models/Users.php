@@ -22,8 +22,14 @@ class Users extends CI_Model {
         else
             return $query->result_array(); 
 	}
+	public function logout() {
+        $this->session->sess_destroy();
+        redirect('','refresh');
+    }
 
 }
+
+
 
 /* End of file Khachhang.php */
 /* Location: ./application/models/Khachhang.php */
