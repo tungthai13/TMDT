@@ -35,7 +35,7 @@
                 <p>
                    
                 <form  method="post" action ="<?php echo base_url('khachhang/logout'); ?>">
-                     <span>chào, </span><strong><?php echo($_SESSION['user']['ten_khach_hang']); ?></strong> 
+                     <span>chào, </span><strong><?php echo($_SESSION['user'][0]['ten_khach_hang']); ?></strong> 
                     <button class="w3-button w3-green">Đăng Xuất</button>
                 </form>
                 </p>
