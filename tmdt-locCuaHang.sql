@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: May 05, 2018 at 09:19 PM
+-- Generation Time: May 07, 2018 at 08:26 PM
 -- Server version: 10.1.31-MariaDB
 -- PHP Version: 7.1.15
 
@@ -74,6 +74,12 @@ DROP PROCEDURE IF EXISTS `layMaQuanHuyen`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `layMaQuanHuyen` (IN `tenQuanHuyen` VARCHAR(256) CHARSET utf8)  NO SQL
 BEGIN
 	SELECT quan_huyen.ma_quan_huyen FROM quan_huyen WHERE quan_huyen.ten_quan_huyen = tenQuanHuyen;
+END$$
+
+DROP PROCEDURE IF EXISTS `locCuaHangTheoQuanHuyen`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `locCuaHangTheoQuanHuyen` (IN `arr` VARCHAR(256) CHARSET utf8, IN `phanTuBatDau` INT, IN `phanTuTrongMotTrang` INT)  NO SQL
+BEGIN
+   Select * from cua_hang WHERE FIND_IN_SET(cua_hang.ma_quan_huyen, arr) limit phanTuBatDau,phanTuTrongMotTrang;
 END$$
 
 DROP PROCEDURE IF EXISTS `tatCaCuaHang`$$
@@ -192,7 +198,7 @@ CREATE TABLE IF NOT EXISTS `cua_hang` (
 INSERT INTO `cua_hang` (`ma_cua_hang`, `ten_cua_hang`, `dia_chi`, `ma_quan_huyen`, `mo_ta`, `logo`, `ma_nguoi_quan_ly`, `gio_mo_cua`, `gio_dong_cua`, `so_dien_thoai`, `trang_thai_cua_hang`, `lat`, `lng`, `tong_diem`, `so_luot_cham`) VALUES
 (2, 'Popeyes Giảng Võ', 'D2 Giảng Võ, Khu tập thể Giảng Võ, Ba Đình, Hà Nội', 5, NULL, 'popeyes1.jpg', 1, '9:00', '22:00', 123456789, 2, 21.025006, 105.82140300000003, 10, 1),
 (3, 'gà Mạnh Hoạch - Hà Đông', '283 Tô Hiệu, Hà Cầu, Hà Đông, Hanoi, Vietnam', 1, NULL, 'gamanhhoach3.jpg', 1, '7:00', '22:00', 2147483647, 2, 20.9640618, 105.77409969999997, 10, 1),
-(20, 'Phở 10 Lý Quốc Sư - Hoàng Minh Giám', 'N2A Hoàng Minh Giám, Quận Thanh Xuân, Hà Nội', 2, NULL, 'lyquocsu.jpeg', 1, '8:00', '22:00', 987654321, 2, 21.0035481, 105.79958269999997, 10, 1),
+(20, 'Phở 10 Lý Quốc Sư', 'N2A Hoàng Minh Giám, Quận Thanh Xuân, Hà Nội', 2, NULL, 'lyquocsu.jpeg', 1, '8:00', '22:00', 987654321, 2, 21.0035481, 105.79958269999997, 10, 1),
 (21, 'Cơm Sườn Nướng 47 - Đào Duy Từ', '47 Đào Duy Từ, Quận Hoàn Kiếm, Hà Nội', 11, NULL, 'logo-default.jpg', 1, '10:00', '15:00', 123, 2, 21.0358212, 105.85283950000007, 10, 1),
 (22, 'Miri Miri - Cơm Văn Phòng Online', '2 Ngõ 92 Trần Đại Nghĩa, Quận Hai Bà Trưng, Hà Nội', 4, NULL, 'logo-default.jpg', 1, '9:00', '20:00', 123, 2, 20.9972097, 105.84530689999997, 10, 1),
 (23, 'Eatwell - Healthy Food', 'C17, Ngõ 131 Nguyễn Thị Định, Quận Cầu Giấy, Hà Nội', 13, NULL, 'logo-default.jpg', 1, '10:00', '22:00', 123, 2, 21.0078887, 105.80526029999999, 10, 1);
@@ -396,7 +402,7 @@ CREATE TABLE IF NOT EXISTS `san_pham` (
   `trang_thai_san_pham` int(11) NOT NULL,
   PRIMARY KEY (`ma_san_pham`),
   KEY `FKsan_pham78820` (`ma_cua_hang`)
-) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `san_pham`

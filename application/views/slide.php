@@ -9,7 +9,7 @@
 -->
                 </div>
                 <?php foreach($danhSachCuaHangSlide->result() as $row): ?>
-                <div class="demo" onclick="currentDiv(<%=dem%>)" style="width: 400px; height: 120px">
+                <div class="demo" onclick="currentDiv(<%=dem%>)" style="width: 445px; height: 120px">
                     <div class="item-img">
                         <img src="<?php echo base_url() ?>image/<?php echo $row->logo ?>" alt="" width="50" height="50">
                     </div>
