@@ -23,6 +23,54 @@ class Welcome extends CI_Controller {
         $this->load->helper('url');
         $this->load->database();
         
+        if(isset($_GET['timKiem'])){
+            $timKiem = $this->input->get("timKiem");
+            $data['timKiem'] = $timKiem;
+            $timKiem = "%" . $timKiem . "%";
+            
+            if (mysqli_more_results($this->db->conn_id)) {
+                mysqli_next_result($this->db->conn_id);
+            }
+            //Số cửa hàng hiển thị trong 1 trang là 9
+            $soPhanTuTrongMotTrangTimKiem = 9;
+
+            //Đếm tổng số lượng cửa hàng trên hệ thống
+            $queryTimKiem = $this->db->query("call tongSoCuaHangTimKiem(?)", $timKiem);
+            $data["tongSoCuaHangTimKiem"] = $queryTimKiem->row()->tongSoCuaHang;
+
+            //Tính toán số lượng trang hiển thị cửa hàng = tổng số cửa hàng / số cửa hàng trên 1 trang
+            $data["tongSoTrangTimKiem"] = $data["tongSoCuaHangTimKiem"] / $soPhanTuTrongMotTrangTimKiem;
+
+            if ($data["tongSoTrangTimKiem"] <= 1) {
+                $data["tongSoTrangTimKiem"] = 1;
+            } else if ($data["tongSoTrangTimKiem"] % $soPhanTuTrongMotTrangTimKiem != 0) {
+                $data["tongSoTrangTimKiem"] += 1;
+            }
+
+            //Lấy ra trang hiển thị hiện tại
+            $trangHienTaiTimKiem = $this->input->get("trangHienTaiTimKiem");
+            // Nếu chưa chọn trang thì mặc định hiển thị trang số 1
+            if ($trangHienTaiTimKiem == null) {
+                $trangHienTaiTimKiem = "1";
+            } 
+            $data["trangHienTaiTimKiem"] = $trangHienTaiTimKiem;
+
+            if (mysqli_more_results($this->db->conn_id)) {
+                mysqli_next_result($this->db->conn_id);
+            }
+
+            $arrayTimKiem["phanTuBatDauTimKiem"] = (intval($trangHienTaiTimKiem) - 1)*$soPhanTuTrongMotTrangTimKiem;
+            $arrayTimKiem["phanTuTrongMotTrangTimKiem"] = $soPhanTuTrongMotTrangTimKiem;     
+            $arrayTimKiem["timKiem"] = $timKiem;
+            $data['danhSachCuaHangTimKiem'] = $this->db->query("call tatCaCuaHangTimKiem(?,?,?)", $arrayTimKiem);
+
+            //Lấy ra 3 cửa hàng mới nhất trong hệ thống để hiện ra trên slide
+            if (mysqli_more_results($this->db->conn_id)) {
+                mysqli_next_result($this->db->conn_id);
+            }
+        }
+        
+        
         //Lấy danh sách quận huyện từ procedure
         if (mysqli_more_results($this->db->conn_id)) {
             mysqli_next_result($this->db->conn_id);
@@ -31,6 +79,7 @@ class Welcome extends CI_Controller {
         
         //Lấy danh sách quận huyện chọn trong phần lọc cửa hàng
         $quanHuyen = $this->input->post("quanHuyen");
+
         $data["quanHuyen"] = $quanHuyen; 
         $stringMaQuanHuyen = ""; //Chuỗi chứa danh sách mã quận huyện theo dạng "1,5,6,9" để truyền vào trong param của procedure;
         $tenQuanHuyen = []; //Mảng chứa danh sách tên các quận huyện đã chọn trong phần lọc cửa hàng
@@ -50,6 +99,7 @@ class Welcome extends CI_Controller {
                 }
             } 
             $stringMaQuanHuyen =  substr($stringMaQuanHuyen, 0, -1); //Xóa dấu phẩy cuối cùng trong chuỗi
+            $data["stringMaQuanHuyen"] = $stringMaQuanHuyen;
         }
         
         //Nối các tên quận huyện trong mảng vào biến $data["stringTenQuanHuyen"] theo định dạng: VD "Quận Hà Đông, Quận Thanh Xuân, Quận Hai Bà Trưng" để truyền vào param của procedure
@@ -91,6 +141,13 @@ class Welcome extends CI_Controller {
         if (mysqli_more_results($this->db->conn_id)) {
             mysqli_next_result($this->db->conn_id);
         }
+        
+        if(isset($_GET["stringMaQuanHuyen"])){
+            $stringMaQuanHuyen = $this->input->get("stringMaQuanHuyen");
+            $data["stringMaQuanHuyen"] = $stringMaQuanHuyen;
+            $data["stringTenQuanHuyen"] = $this->input->get("stringTenQuanHuyen");
+        }
+        
         //TH không lọc cửa hàng
         if($stringMaQuanHuyen == ""){
             $array["phanTuBatDau"] = (intval($trangHienTai) - 1)*$soPhanTuTrongMotTrang;
@@ -114,4 +171,55 @@ class Welcome extends CI_Controller {
                
 		$this->load->view('welcome_message', $data);
 	}
+    
+    public function timKiem(){
+        $this->load->helper('url');
+        $this->load->database();        
+        
+        $timKiem = $this->input->get("timKiem");
+        $timKiem = "%" . $timKiem . "%";
+        if (mysqli_more_results($this->db->conn_id)) {
+            mysqli_next_result($this->db->conn_id);
+        }
+        //Số cửa hàng hiển thị trong 1 trang là 9
+        $soPhanTuTrongMotTrang = 9;
+        
+        //Đếm tổng số lượng cửa hàng trên hệ thống
+        $query = $this->db->query("call tongSoCuaHangTimKiem(?)", $timKiem);
+        $data["tongSoCuaHang"] = $query->row()->tongSoCuaHang;
+        
+        //Tính toán số lượng trang hiển thị cửa hàng = tổng số cửa hàng / số cửa hàng trên 1 trang
+        $data["tongSoTrang"] = $data["tongSoCuaHang"] / $soPhanTuTrongMotTrang;
+    
+        if ($data["tongSoTrang"] <= 1) {
+            $data["tongSoTrang"] = 1;
+        } else if ($data["tongSoTrang"] % $soPhanTuTrongMotTrang != 0) {
+            $data["tongSoTrang"] += 1;
+        }
+        
+        //Lấy ra trang hiển thị hiện tại
+        $trangHienTai = $this->input->get("trangHienTai");
+        // Nếu chưa chọn trang thì mặc định hiển thị trang số 1
+        if ($trangHienTai == null) {
+            $trangHienTai = "1";
+        } 
+        $data["trangHienTai"] = $trangHienTai;
+        
+        if (mysqli_more_results($this->db->conn_id)) {
+            mysqli_next_result($this->db->conn_id);
+        }
+            
+        $array["phanTuBatDau"] = (intval($trangHienTai) - 1)*$soPhanTuTrongMotTrang;
+        $array["phanTuTrongMotTrang"] = $soPhanTuTrongMotTrang;     
+        $array["timKiem"] = $timKiem;
+        $data['danhSachCuaHang'] = $this->db->query("call tatCaCuaHangTimKiem(?,?,?)", $array);
+        
+        //Lấy ra 3 cửa hàng mới nhất trong hệ thống để hiện ra trên slide
+        if (mysqli_more_results($this->db->conn_id)) {
+            mysqli_next_result($this->db->conn_id);
+        }
+        $data['danhSachCuaHangSlide'] = $this->db->query("call danhSachCuaHangSlide()");
+               
+		$this->load->view('welcome_message', $data);
+    }
 }

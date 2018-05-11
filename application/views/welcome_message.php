@@ -42,4 +42,4 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <script type="text/javascript" src="<?php echo base_url("js/slideShow.js") ?>"></script>
 
     <!--Script tab-->
-    <script type="text/javascript" src="<?php echo base_url("js/tab.js") ?>"></script>
+    <script type="text/javascript" src="<?php echo base_url("js/tab.js?v=2") ?>"></script>

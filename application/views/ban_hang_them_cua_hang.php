@@ -51,7 +51,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 }
             }
 
-            img {
+            #picture {
                 width: 200px;
                 height: 200px;
             }
@@ -75,8 +75,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             <div class="container" id="container1">
                 <?php include 'menu_ban_hang.php' ?>
                 <div id="main">
-
-                    <input type="hidden" id="maTaiKhoan" value="1" />
                     <div id="content">
 
                         <h2>Thêm cửa hàng mới</h2>

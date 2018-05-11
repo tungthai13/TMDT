@@ -1,15 +1,10 @@
-<div id="slide" onLoad="runShow()">
+<div id="slide" onLoad="runShow()" style="padding-top: 23px">
     <div class="container">
         <div class="row">
             <div class="col-md-5 item-slide">
-                <div class="section-demo">
-<!--
-                    <button onclick="plusDivs(-1)">❮ Prev</button>
-                    <button onclick="plusDivs(1)">Next ❯</button>
--->
-                </div>
+
                 <?php foreach($danhSachCuaHangSlide->result() as $row): ?>
-                <div class="demo" onclick="currentDiv(<%=dem%>)" style="width: 445px; height: 120px">
+                <div class="demo" onclick="currentDiv(<%=dem%>)" style="width: 460px; height: 126px;">
                     <div class="item-img">
                         <img src="<?php echo base_url() ?>image/<?php echo $row->logo ?>" alt="" width="50" height="50">
                     </div>
@@ -24,7 +19,7 @@
                 <div>
                     <?php foreach($danhSachCuaHangSlide->result() as $row): ?>
                     <a href="<?php echo base_url() ?>DatMon/index?maCuaHang=<?php echo $row->ma_cua_hang ?>">
-                        <img class="mySlides" src="<?php echo base_url() ?>image/<?php echo $row->logo ?>" height="416" width="100%">
+                        <img class="mySlides" src="<?php echo base_url() ?>image/<?php echo $row->logo ?>" height="414" width="100%">
                     </a>
                     <?php endforeach; ?>
                 </div>

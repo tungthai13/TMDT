@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: May 07, 2018 at 08:26 PM
+-- Generation Time: May 11, 2018 at 07:29 PM
 -- Server version: 10.1.31-MariaDB
 -- PHP Version: 7.1.15
 
@@ -87,6 +87,12 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `tatCaCuaHang` (IN `phanTuBatDau` IN
    Select * from cua_hang limit phanTuBatDau,phanTuTrongMotTrang;
 END$$
 
+DROP PROCEDURE IF EXISTS `tatCaCuaHangTimKiem`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `tatCaCuaHangTimKiem` (IN `phanTuBatDau` INT, IN `phanTuTrongMotTrang` INT, IN `tenCuaHang` VARCHAR(256) CHARSET utf8)  NO SQL
+BEGIN
+   SELECT * from cua_hang WHERE cua_hang.ten_cua_hang LIKE tenCuaHang LIMIT phanTuBatDau,phanTuTrongMotTrang;
+END$$
+
 DROP PROCEDURE IF EXISTS `themCuaHang`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `themCuaHang` (IN `maTaiKhoan` INT, IN `tenCuaHang` VARCHAR(256) CHARSET utf8, IN `diaChi` VARCHAR(256) CHARSET utf8, IN `soDienThoai` VARCHAR(256) CHARSET utf8, IN `gioMoCua` VARCHAR(256) CHARSET utf8, IN `gioDongCua` VARCHAR(256) CHARSET utf8, IN `maQuanHuyen` INT, IN `lat` DOUBLE, IN `lng` DOUBLE, IN `logo` VARCHAR(256) CHARSET utf8)  NO SQL
 BEGIN
@@ -115,6 +121,12 @@ DROP PROCEDURE IF EXISTS `tongSoCuaHangCaNhan`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `tongSoCuaHangCaNhan` (IN `maTaiKhoan` INT)  NO SQL
 BEGIN
 	SELECT count(ma_cua_hang) as 'tong_so_cua_hang' FROM cua_hang WHERE cua_hang.ma_nguoi_quan_ly = maTaiKhoan;
+END$$
+
+DROP PROCEDURE IF EXISTS `tongSoCuaHangTimKiem`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `tongSoCuaHangTimKiem` (IN `tenCuaHang` VARCHAR(256) CHARSET utf8)  NO SQL
+BEGIN
+	SELECT count(cua_hang.ma_cua_hang) as 'tongSoCuaHang' FROM cua_hang WHERE cua_hang.ten_cua_hang LIKE tenCuaHang;
 END$$
 
 DROP PROCEDURE IF EXISTS `xoaCuaHang`$$
@@ -302,14 +314,15 @@ CREATE TABLE IF NOT EXISTS `khach_hang` (
   `so_dien_thoai` varchar(100) NOT NULL,
   `mat_khau` varchar(256) NOT NULL,
   PRIMARY KEY (`ma_khach_hang`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `khach_hang`
 --
 
 INSERT INTO `khach_hang` (`ma_khach_hang`, `ten_khach_hang`, `email`, `so_dien_thoai`, `mat_khau`) VALUES
-(1, 'foodapp', 'foodapp@foodapp.com', '0988192713', '1234567');
+(1, 'foodapp', 'foodapp@foodapp.com', '0988192713', '1234567'),
+(2, 'tung', 'tung@gmail.com', '0988192713', '123');
 
 -- --------------------------------------------------------
 
@@ -322,7 +335,19 @@ CREATE TABLE IF NOT EXISTS `loai_cua_hang` (
   `ma_loai_cua_hang` int(11) NOT NULL AUTO_INCREMENT,
   `ten_loai_cua_hang` varchar(256) NOT NULL,
   PRIMARY KEY (`ma_loai_cua_hang`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `loai_cua_hang`
+--
+
+INSERT INTO `loai_cua_hang` (`ma_loai_cua_hang`, `ten_loai_cua_hang`) VALUES
+(1, 'Ẩm thực Việt Nam'),
+(2, 'Ẩm thực Hàn Quốc'),
+(3, 'Ẩm thực Nhật'),
+(4, 'Ẩm thực Trung Quốc'),
+(5, 'Ẩm thực Singapore'),
+(6, 'Ẩm thực Châu Âu');
 
 -- --------------------------------------------------------
 

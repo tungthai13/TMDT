@@ -53,7 +53,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 }
             }
             
-            img{
+            #picture{
                 width: 200px;
                 height: 200px;
             }
@@ -71,8 +71,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             <div class="container" id="container1">
                 <?php include 'menu_ban_hang.php' ?>
                 <div id="main">
-
-                    <input type="hidden" id="maTaiKhoan" value="1" />
                     <div id="content">
                         <?php $row = $sanPham->row(); ?>
                         <h2>Chi tiết sản phẩm</h2>
@@ -103,7 +101,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <div class="form-group">
                                 <label for="picture">Ảnh minh họa:</label>
                                 <br>
-                                <img src="<?php echo base_url() ?>image/<?php echo $row->anh_minh_hoa ?>" />
+                                <img id="picture" src="<?php echo base_url() ?>image/<?php echo $row->anh_minh_hoa ?>" />
                                 <br>
                                 <br>
                                 <input type="file" class="form-control" name="picture">

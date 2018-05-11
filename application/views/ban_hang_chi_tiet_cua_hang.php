@@ -51,7 +51,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 }
             }
 
-            img {
+            #picture {
                 width: 200px;
                 height: 200px;
             }
@@ -75,8 +75,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             <div class="container" id="container1">
                 <?php include 'menu_ban_hang.php' ?>
                 <div id="main">
-
-                    <input type="hidden" id="maTaiKhoan" value="1" />
                     <div id="content">
 
                         <h2>Chi tiết cửa hàng</h2>
@@ -206,7 +204,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <div class="form-group">
                                 <label for="picture">Ảnh logo:</label>
                                 <br>
-                                <img src="<?php echo base_url() ?>image/<?php echo $row->logo ?>" />
+                                <img id="picture" src="<?php echo base_url() ?>image/<?php echo $row->logo ?>" />
                                 <br>
                                 <br>
                                 <input type="file" class="form-control" name="picture">

@@ -9,7 +9,7 @@ class BanHang extends CI_Controller {
         $this->load->helper('url');
         $this->load->database();
         
-        $data["maTaiKhoan"] = $this->input->get("maTaiKhoan");
+        $data["maTaiKhoan"] = $this->input->post("maTaiKhoan");
         
         if (mysqli_more_results($this->db->conn_id)) {
             mysqli_next_result($this->db->conn_id);

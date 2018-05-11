@@ -69,8 +69,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             <div class="container" id="container1">
                 <?php include 'menu_ban_hang.php' ?>
                 <div id="main">
-
-                    <input type="hidden" id="maTaiKhoan" value="1" />
                     <div id="content">
 
                         <h2>Thêm mới sản phẩm</h2>
