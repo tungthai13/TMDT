@@ -227,6 +227,19 @@
 
         <!--Tab 3 content-->
         <div class="row product w3-container w3-display-container city" id="Hanoi" <?php if(!isset($timKiem)): ?>style="display:none"<?php endif; ?> >
+            <div class="col-md-12">
+                <form class="form-inline" style="height: 49px;" action="<?php echo base_url() ?>Welcome/index" method="get">
+                    <label class="sr-only" for="inlineFormInput">Name</label>
+                    <input 
+                        type="text" 
+                        name="timKiem" 
+                        class="form-control mb-2 mr-sm-2 mb-sm-0" 
+                        id="inlineFormInput" 
+                        placeholder="Tìm kiếm cửa hàng" 
+                        style="width: 85%;">
+                    <button type="submit" class="btn btn-primary">Tìm kiếm</button>
+                </form>
+            </div>
             <?php if(isset($timKiem)){ ?>
                 <div class="col-md-12"><h2>Kết quả tìm kiếm: </h2></div>
                 <!--Store Item-->
@@ -317,7 +330,7 @@
                         </nav>
                     </div>
             <?php } else { ?>
-                <h2>Chưa tìm kiếm</h2>
+
             <?php } ?>
         </div>
         <!--End tab 3 content-->

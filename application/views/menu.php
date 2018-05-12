@@ -15,6 +15,7 @@
                 <li class="nav-item" style="margin-top: 4px;">
                     <a id='nav2' class="nav-link" href="#">Lịch sử mua hàng </a>
                 </li>
+                &nbsp;
                 <li class="nav-item" style="margin-top: 4px;">
                     <form action="<?php echo base_url();?>BanHang/index" method="post" onsubmit="return kiemTraDangNhap();">
                         <?php  if (isset($_SESSION['user'])) { ?>
@@ -25,14 +26,7 @@
                         <input id="cuaHangCuaToi" style="" type="submit" value="Cửa hàng của tôi" />
                     </form>
                 </li>
-                <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</li>
-                <li>
-                    <form class="form-inline" style="height: 49px;" action="<?php echo base_url() ?>Welcome/index" method="get">
-                        <label class="sr-only" for="inlineFormInput">Name</label>
-                        <input type="text" name="timKiem" class="form-control mb-2 mr-sm-2 mb-sm-0" id="inlineFormInput" placeholder="Tìm kiếm cửa hàng" style="width: 400px;">
-                        <button type="submit" class="btn btn-primary">Tìm kiếm</button>
-                    </form>
-                </li>
+
             </ul>
             <div id="anhDaiDien"></div>
             <div id="status"></div>
