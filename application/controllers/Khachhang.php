@@ -28,19 +28,9 @@ class Khachhang extends CI_Controller {
     public function dangki()
     {
     	$password = $this->input->post('password'); 
-        $password_again = $this->input->post('password_again'); 
-    	$username = $this->input->post('username'); 
+    	$password_again = $this->input->post('password_again'); 
     	if ($password == $password_again) {
-    		$this->users->dangki(); 
-            $array['username'] = $username;
-            $array['password'] = $password;
-
-            $sql = $this->db->query("call layMaTaiKhoan(?,?)", $array);
-            $maTaiKhoan = $sql->row()->ma_khach_hang;
-            if (mysqli_more_results($this->db->conn_id)) {
-                mysqli_next_result($this->db->conn_id);
-            }
-            $this->db->query("call themGioHang(?)", $maTaiKhoan);
+    		$this->users->dangki();
     		redirect('','refresh');
     	}else{
     		redirect('','refresh');

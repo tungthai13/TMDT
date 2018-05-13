@@ -28,20 +28,13 @@ var gioHang = [];
 
 //Kiểm tra giỏ hàng của cửa hàng này tồn tại hay không
 //Định dạng gioHang12_2: giỏ hàng của cửa hàng có mã là 12 và mã tài khoản là 2
-if(document.getElementById('maTaiKhoan').value !== "false"){
-    localStorage.setItem("gioHang" + maCuaHang + "_" + maTaiKhoan1, document.getElementById("gioHang" + maCuaHang + "_" + maTaiKhoan1).value);
+if (localStorage.getItem("gioHang" + maCuaHang + "_" + maTaiKhoan1) !== null) {
     gioHang = JSON.parse(localStorage.getItem("gioHang" + maCuaHang + "_" + maTaiKhoan1));
     capNhatGioHang();
 } else {
-    if (localStorage.getItem("gioHang" + maCuaHang + "_" + maTaiKhoan1) !== null) {
-        gioHang = JSON.parse(localStorage.getItem("gioHang" + maCuaHang + "_" + maTaiKhoan1));
-        capNhatGioHang();
-    } else {
     //Nếu chưa tồn tại thì tạo mới
-        localStorage.setItem("gioHang" + maCuaHang + "_" + maTaiKhoan1, JSON.stringify(gioHang));
-    }
+    localStorage.setItem("gioHang" + maCuaHang + "_" + maTaiKhoan1, JSON.stringify(gioHang));
 }
-
 
 //Xu ly nut them mon
 var monAn;
@@ -136,7 +129,6 @@ function capNhatGioHang() {
 
     localStorage.setItem("gioHang" + maCuaHang + "_" + maTaiKhoan1, JSON.stringify(gioHang));
     document.getElementById("json").value = localStorage.getItem("gioHang" + maCuaHang + "_" + maTaiKhoan1);
-    document.getElementById("json1").value = localStorage.getItem("gioHang" + maCuaHang + "_" + maTaiKhoan1); 
 }
 
 $("#reset").click(function () {

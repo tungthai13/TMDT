@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html>
     <head>
@@ -57,7 +56,10 @@
         ?>
 
         <input type="hidden" id="diemCham" value=""/>
+<<<<<<< HEAD
         <input type="hidden" id="gioHang<?php echo $row->ma_cua_hang ?>_<?php if(isset($_SESSION['user'])){echo $_SESSION['user'][0]['ma_khach_hang'];} else {echo 'false';} ?>" value='<?php echo $chiTietGioHang ?>' />
+=======
+>>>>>>> parent of f19975a... Merge branch 'master' of https://github.com/tungthai13/TMDT
         
         <div id="all">
             <!--menu-->
@@ -98,13 +100,11 @@
 
                             </div>
                             <div class="col-md-4 price">
-<<<<<<< HEAD
                                 <form action="<?php echo base_url(); ?>DatMon/test" method="POST" onsubmit="return kiemTraGioHangRong();">
-=======
-                                <form action="<?php echo site_url('dathang'); ?>" method="POST" onsubmit="return kiemTraGioHangRong();">
->>>>>>> 314e8bba989f5a6605ab22c718d5a431cbc64fa7
                                     <!--Mã cửa hàng-->
                                     <input type="hidden" name="maTaiKhoan" id="maTaiKhoan" value="<?php if(isset($_SESSION['user'])){echo $_SESSION['user'][0]['ma_khach_hang'];}else{echo 'false';}  ?>"/>
+                                    <input type="hidden" name="maTaiKhoan" id="maTaiKhoan" value="1"/>
+                                    <input type="hidden" name="maCuaHang" id="maCuaHang" value="<?php echo $row->ma_cua_hang ?>"/>
                                     <input type="hidden" id="tenCuaHang" name="tenCuaHang" value="<?php echo $row->ten_cua_hang ?>"/>
                                     <input type="hidden" id="diaChiCuaHang" name="diaChiCuaHang" value="<?php echo $row->dia_chi ?>"/>
                                     <table class="table">
@@ -138,8 +138,7 @@
                                         <input type="submit" name="" value="Lưu Giỏ Hàng" class="pull-right btn btn-success">
                                         <?php } ?>
                                         <input type="hidden" id="gioHang<?php echo $row->ma_cua_hang ?>_<?php if(isset($_SESSION['user'])){echo $_SESSION['user'][0]['ma_khach_hang'];} ?>" value='<?php echo $chiTietGioHang ?>' name="san_pham_gio" />
-                                    </form>
-                                   
+                                    </form> 
                             </div>
                         </div>
 
@@ -215,7 +214,10 @@
 <script src="<?php echo base_url("js/chamdiem.js"); ?>"></script>
 
 <!--script xử lý giỏ hàng-->
-<script src="<?php echo base_url("js/xulygiohang.js?v=1"); ?>"></script>
+<script src="<?php echo base_url("js/xulygiohang.js?v=2"); ?>"></script>
+=======
+<script src="<?php echo base_url("js/xulygiohang.js?v=7"); ?>"></script>
+>>>>>>> parent of f19975a... Merge branch 'master' of https://github.com/tungthai13/TMDT
 
 <!--Script xử lý google map-->
 <script src="<?php echo base_url("js/xulygooglemap.js"); ?>"></script>

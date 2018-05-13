@@ -38,8 +38,7 @@ class Users extends CI_Model {
     			'so_dien_thoai' => $phone , 
     			'mat_khau' => $password
     	);
-    	// $this->session->set_userdata('user',$data); 
-        
+    	$this->session->set_userdata('user',$data); 
     	return $this->db->insert('khach_hang',$data);
     }
 
