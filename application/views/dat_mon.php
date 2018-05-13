@@ -101,11 +101,9 @@
 
                             </div>
                             <div class="col-md-4 price">
-<<<<<<< HEAD
-                                <form action="<?php echo base_url(); ?>DatMon/test" method="POST" onsubmit="return kiemTraGioHangRong();">
-=======
+
+
                                 <form action="<?php echo site_url('dathang'); ?>" method="POST" onsubmit="return kiemTraGioHangRong();">
->>>>>>> 314e8bba989f5a6605ab22c718d5a431cbc64fa7
                                     <!--Mã cửa hàng-->
                                     <input type="hidden" name="maTaiKhoan" id="maTaiKhoan" value="<?php if(isset($_SESSION['user'])){echo $_SESSION['user'][0]['ma_khach_hang'];}else{echo 'false';}  ?>"/>
                                     <input type="hidden" name="maCuaHang" id="maCuaHang" value="<?php echo $row->ma_cua_hang ?>"/>

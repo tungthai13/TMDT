@@ -29,6 +29,7 @@ class Donhang extends CI_Model {
 		$gio = $this->input->post('gio');	
 		$soDT = $this->input->post('soDT');	
 		$ghiChu = $this->input->post('ghiChu');	
+        $tongChiPhiVanChuyen = $this->input->post('tongChiPhiVanChuyen');
 		$data = array(
 			'ma_cua_hang'=> $maCuaHang,
 			'ma_khach_hang' => $maTaiKhoan,
@@ -37,7 +38,7 @@ class Donhang extends CI_Model {
 			'ngay_tao_don_hang' => $ngay,
 			'ngay_giao_hang' => $ngay,
 			'gio_giao_hang' => $gio ,
-			'tong_chi_phi_van_chuyen' =>50,
+			'tong_chi_phi_van_chuyen' =>$tongChiPhiVanChuyen,
 			'tong_tien_thanh_toan' => $tongTienThanhToan,
 			'ma_phuong_thuc_thanh_toan' =>1,
 			'trang_thai_don_hang' =>1,

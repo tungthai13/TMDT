@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: May 11, 2018 at 07:29 PM
+-- Generation Time: May 13, 2018 at 05:39 PM
 -- Server version: 10.1.31-MariaDB
 -- PHP Version: 7.1.15
 
@@ -52,10 +52,34 @@ BEGIN
 	SELECT * FROM cua_hang WHERE cua_hang.ma_nguoi_quan_ly = maNguoiQuanLy;
 END$$
 
+DROP PROCEDURE IF EXISTS `danhSachCuaHangDaDat`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `danhSachCuaHangDaDat` (IN `maTaiKhoan` INT)  NO SQL
+BEGIN
+	SELECT DISTINCT don_hang.ma_cua_hang, cua_hang.ma_quan_huyen FROM don_hang INNER JOIN cua_hang ON cua_hang.ma_cua_hang = don_hang.ma_cua_hang WHERE don_hang.ma_khach_hang = maTaiKhoan;
+END$$
+
+DROP PROCEDURE IF EXISTS `danhSachCuaHangGoiY`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `danhSachCuaHangGoiY` (IN `arr` VARCHAR(256) CHARSET utf8)  NO SQL
+BEGIN
+	SELECT DISTINCT * FROM cua_hang JOIN cua_hang_loai_cua_hang ON cua_hang_loai_cua_hang.ma_cua_hang = cua_hang.ma_cua_hang WHERE  FIND_IN_SET(cua_hang_loai_cua_hang.ma_loai_cua_hang, arr) ORDER BY RAND() LIMIT 4;
+END$$
+
 DROP PROCEDURE IF EXISTS `danhSachCuaHangSlide`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `danhSachCuaHangSlide` ()  NO SQL
 BEGIN
 	SELECT * FROM cua_hang ORDER BY cua_hang.ma_cua_hang DESC limit 3;
+END$$
+
+DROP PROCEDURE IF EXISTS `danhSachLoaiCuaHang`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `danhSachLoaiCuaHang` ()  NO SQL
+BEGIN
+	SELECT * FROM loai_cua_hang;
+END$$
+
+DROP PROCEDURE IF EXISTS `danhSachLoaiCuaHangDaDat`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `danhSachLoaiCuaHangDaDat` (IN `arr` VARCHAR(256) CHARSET utf8, IN `maTaiKhoan` INT)  NO SQL
+BEGIN
+	SELECT DISTINCT cua_hang_loai_cua_hang.ma_loai_cua_hang, count(don_hang.ma_don_hang) as 'so_lan_dat' FROM cua_hang_loai_cua_hang INNER JOIN don_hang ON don_hang.ma_cua_hang = cua_hang_loai_cua_hang.ma_cua_hang WHERE FIND_IN_SET(cua_hang_loai_cua_hang.ma_cua_hang, arr) AND don_hang.ma_khach_hang = maTaiKhoan GROUP BY cua_hang_loai_cua_hang.ma_loai_cua_hang ORDER BY so_lan_dat DESC LIMIT 3;
 END$$
 
 DROP PROCEDURE IF EXISTS `danhSachQuanHuyen`$$
@@ -70,11 +94,33 @@ BEGIN
 	SELECT * FROM san_pham WHERE san_pham.ma_cua_hang = maCuaHang;
 END$$
 
+DROP PROCEDURE IF EXISTS `layChiTietGioHang`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `layChiTietGioHang` (IN `maKhachHang` INT, IN `maCuaHang` INT)  NO SQL
+BEGIN
+	SELECT chi_tiet_gio_hang.ma_san_pham, chi_tiet_gio_hang.so_luong, san_pham.ten_san_pham, san_pham.don_gia FROM `gio_hang`INNER JOIN chi_tiet_gio_hang INNER JOIN san_pham WHERE gio_hang.ma_gio_hang = chi_tiet_gio_hang.ma_gio_hang and san_pham.ma_san_pham = chi_tiet_gio_hang.ma_san_pham and ma_khach_hang = maKhachHang and chi_tiet_gio_hang.ma_cua_hang = maCuaHang;
+END$$
+
+DROP PROCEDURE IF EXISTS `layMaCuaHangVuaThem`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `layMaCuaHangVuaThem` (IN `maKhachHang` INT)  NO SQL
+BEGIN
+	SELECT cua_hang.ma_cua_hang FROM cua_hang WHERE cua_hang.ma_nguoi_quan_ly = maKhachHang ORDER BY cua_hang.ma_cua_hang DESC LIMIT 1;
+END$$
+
 DROP PROCEDURE IF EXISTS `layMaQuanHuyen`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `layMaQuanHuyen` (IN `tenQuanHuyen` VARCHAR(256) CHARSET utf8)  NO SQL
 BEGIN
 	SELECT quan_huyen.ma_quan_huyen FROM quan_huyen WHERE quan_huyen.ten_quan_huyen = tenQuanHuyen;
 END$$
+
+DROP PROCEDURE IF EXISTS `layMaTaiKhoan`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `layMaTaiKhoan` (IN `tenKhachHang` VARCHAR(256) CHARSET utf8, IN `matKhau` VARCHAR(256) CHARSET utf8)  NO SQL
+BEGIN
+SELECT khach_hang.ma_khach_hang FROM khach_hang WHERE khach_hang.ten_khach_hang = tenKhachHang and khach_hang.mat_khau = matKhau;
+END$$
+
+DROP PROCEDURE IF EXISTS `layTatCaMaLoaiCuaHang`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `layTatCaMaLoaiCuaHang` (IN `maCuaHang` INT)  NO SQL
+SELECT * FROM cua_hang_loai_cua_hang WHERE cua_hang_loai_cua_hang.ma_cua_hang = maCuaHang$$
 
 DROP PROCEDURE IF EXISTS `locCuaHangTheoQuanHuyen`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `locCuaHangTheoQuanHuyen` (IN `arr` VARCHAR(256) CHARSET utf8, IN `phanTuBatDau` INT, IN `phanTuTrongMotTrang` INT)  NO SQL
@@ -97,6 +143,18 @@ DROP PROCEDURE IF EXISTS `themCuaHang`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `themCuaHang` (IN `maTaiKhoan` INT, IN `tenCuaHang` VARCHAR(256) CHARSET utf8, IN `diaChi` VARCHAR(256) CHARSET utf8, IN `soDienThoai` VARCHAR(256) CHARSET utf8, IN `gioMoCua` VARCHAR(256) CHARSET utf8, IN `gioDongCua` VARCHAR(256) CHARSET utf8, IN `maQuanHuyen` INT, IN `lat` DOUBLE, IN `lng` DOUBLE, IN `logo` VARCHAR(256) CHARSET utf8)  NO SQL
 BEGIN
 	INSERT INTO cua_hang (cua_hang.ma_nguoi_quan_ly, cua_hang.ten_cua_hang, cua_hang.dia_chi, cua_hang.so_dien_thoai, cua_hang.gio_mo_cua, cua_hang.gio_dong_cua, cua_hang.ma_quan_huyen, cua_hang.lat, cua_hang.lng, cua_hang.logo) values (maTaiKhoan, tenCuaHang, diaChi, soDienThoai, gioMoCua, gioDongCua, maQuanHuyen, lat, lng, logo);
+END$$
+
+DROP PROCEDURE IF EXISTS `themCuaHangLoaiCuaHang`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `themCuaHangLoaiCuaHang` (IN `maCuaHang` INT, IN `maLoaiCuaHang` INT)  NO SQL
+BEGIN
+	INSERT INTO cua_hang_loai_cua_hang values (maCuaHang, maLoaiCuaHang);
+END$$
+
+DROP PROCEDURE IF EXISTS `themGioHang`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `themGioHang` (IN `maTaiKhoan` INT)  NO SQL
+BEGIN
+INSERT INTO gio_hang (gio_hang.ma_khach_hang) VALUES (maTaiKhoan);
 END$$
 
 DROP PROCEDURE IF EXISTS `themSanPham`$$
@@ -133,6 +191,12 @@ DROP PROCEDURE IF EXISTS `xoaCuaHang`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `xoaCuaHang` (IN `maCuaHang` INT)  NO SQL
 BEGIN
 	DELETE FROM cua_hang WHERE cua_hang.ma_cua_hang = maCuaHang;
+END$$
+
+DROP PROCEDURE IF EXISTS `xoaCuaHangLoaiCuaHang`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `xoaCuaHangLoaiCuaHang` (IN `maCuaHang` INT)  NO SQL
+BEGIN
+	DELETE FROM cua_hang_loai_cua_hang WHERE cua_hang_loai_cua_hang.ma_cua_hang = maCuaHang;
 END$$
 
 DROP PROCEDURE IF EXISTS `xoaSanPham`$$
@@ -175,6 +239,14 @@ CREATE TABLE IF NOT EXISTS `chi_tiet_gio_hang` (
   KEY `FKchi_tiet_g609333` (`ma_san_pham`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Dumping data for table `chi_tiet_gio_hang`
+--
+
+INSERT INTO `chi_tiet_gio_hang` (`ma_gio_hang`, `ma_cua_hang`, `ma_san_pham`, `so_luong`) VALUES
+(1, 2, 1, 5),
+(1, 2, 2, 4);
+
 -- --------------------------------------------------------
 
 --
@@ -201,7 +273,7 @@ CREATE TABLE IF NOT EXISTS `cua_hang` (
   PRIMARY KEY (`ma_cua_hang`),
   KEY `FKcua_hang268799` (`ma_quan_huyen`),
   KEY `FKcua_hang380667` (`ma_nguoi_quan_ly`)
-) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=36 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `cua_hang`
@@ -213,7 +285,7 @@ INSERT INTO `cua_hang` (`ma_cua_hang`, `ten_cua_hang`, `dia_chi`, `ma_quan_huyen
 (20, 'Phở 10 Lý Quốc Sư', 'N2A Hoàng Minh Giám, Quận Thanh Xuân, Hà Nội', 2, NULL, 'lyquocsu.jpeg', 1, '8:00', '22:00', 987654321, 2, 21.0035481, 105.79958269999997, 10, 1),
 (21, 'Cơm Sườn Nướng 47 - Đào Duy Từ', '47 Đào Duy Từ, Quận Hoàn Kiếm, Hà Nội', 11, NULL, 'logo-default.jpg', 1, '10:00', '15:00', 123, 2, 21.0358212, 105.85283950000007, 10, 1),
 (22, 'Miri Miri - Cơm Văn Phòng Online', '2 Ngõ 92 Trần Đại Nghĩa, Quận Hai Bà Trưng, Hà Nội', 4, NULL, 'logo-default.jpg', 1, '9:00', '20:00', 123, 2, 20.9972097, 105.84530689999997, 10, 1),
-(23, 'Eatwell - Healthy Food', 'C17, Ngõ 131 Nguyễn Thị Định, Quận Cầu Giấy, Hà Nội', 13, NULL, 'logo-default.jpg', 1, '10:00', '22:00', 123, 2, 21.0078887, 105.80526029999999, 10, 1);
+(23, 'Eatwell - Healthy Food', 'C17, Ngõ 131 Nguyễn Thị Định, Quận Cầu Giấy, Hà Nội', 13, NULL, 'b59e11d6b156569e3a38197b006c8386.jpg', 1, '10:00', '22:00', 123456789, 2, 21.0078887, 105.80526029999999, 10, 1);
 
 -- --------------------------------------------------------
 
@@ -228,6 +300,21 @@ CREATE TABLE IF NOT EXISTS `cua_hang_loai_cua_hang` (
   PRIMARY KEY (`ma_cua_hang`,`ma_loai_cua_hang`),
   KEY `FKcua_hang_l51468` (`ma_loai_cua_hang`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `cua_hang_loai_cua_hang`
+--
+
+INSERT INTO `cua_hang_loai_cua_hang` (`ma_cua_hang`, `ma_loai_cua_hang`) VALUES
+(2, 1),
+(2, 6),
+(3, 1),
+(20, 1),
+(20, 6),
+(21, 1),
+(22, 1),
+(23, 4),
+(23, 5);
 
 -- --------------------------------------------------------
 
@@ -284,7 +371,21 @@ CREATE TABLE IF NOT EXISTS `don_hang` (
   KEY `FKdon_hang631726` (`ma_cua_hang`),
   KEY `FKdon_hang587609` (`ma_phuong_thuc_thanh_toan`),
   KEY `FKdon_hang700206` (`ma_van_chuyen`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `don_hang`
+--
+
+INSERT INTO `don_hang` (`ma_don_hang`, `ma_cua_hang`, `ma_khach_hang`, `so_dien_thoai`, `dia_chi`, `ngay_tao_don_hang`, `ngay_giao_hang`, `gio_giao_hang`, `tong_chi_phi_van_chuyen`, `tong_tien_thanh_toan`, `ma_phuong_thuc_thanh_toan`, `trang_thai_don_hang`, `ghi_chu`, `ma_van_chuyen`) VALUES
+(2, 2, 1, '123', 'hanoi', '05/13/2018', '05/13/2018', '20', 5000, 15000, 1, 'abc', NULL, 1),
+(3, 20, 1, '123', 'hanoi', '05/13/2018', '05/13/2018', '20', 5000, 15000, 1, 'abc', NULL, 1),
+(4, 3, 1, '123', 'hanoi', '05/13/2018', '05/13/2018', '20', 5000, 15000, 1, 'abc', NULL, 1),
+(5, 2, 2, '912345678', 'hanoi', '05/13/2018', '05/13/2018', '20', 5000, 15000, 1, 'aa', NULL, 1),
+(6, 2, 1, '0988192713', 'Học viện Công nghệ Bưu chính Viễn thông - PTIT, Nguyễn Trãi, Hà Đông, Hanoi, Vietnam', '2018-05-15', '2018-05-15', '10:00', 36000, 58000, 1, '1', '', 1),
+(7, 2, 1, '0988192713', 'Học viện Công nghệ Bưu chính Viễn thông - PTIT, Nguyễn Trãi, Hà Đông, Hanoi, Vietnam', '2018-05-15', '2018-05-15', '10:00', 36000, 91000, 1, '1', '', 1),
+(8, 2, 1, '0988192713', 'Học viện Công nghệ Bưu chính Viễn thông - PTIT, Nguyễn Trãi, Hà Đông, Hanoi, Vietnam', '2018-05-16', '2018-05-16', '10:00', 36000, 91000, 1, '1', '', 1),
+(9, 2, 1, '0988192713', 'hanoi', '2018-05-16', '2018-05-16', '10:00', 13500, 112500, 1, '1', '', 1);
 
 -- --------------------------------------------------------
 
@@ -298,7 +399,16 @@ CREATE TABLE IF NOT EXISTS `gio_hang` (
   `ma_khach_hang` int(11) NOT NULL,
   PRIMARY KEY (`ma_gio_hang`),
   KEY `FKgio_hang767839` (`ma_khach_hang`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `gio_hang`
+--
+
+INSERT INTO `gio_hang` (`ma_gio_hang`, `ma_khach_hang`) VALUES
+(1, 1),
+(2, 2),
+(3, 3);
 
 -- --------------------------------------------------------
 
@@ -314,7 +424,7 @@ CREATE TABLE IF NOT EXISTS `khach_hang` (
   `so_dien_thoai` varchar(100) NOT NULL,
   `mat_khau` varchar(256) NOT NULL,
   PRIMARY KEY (`ma_khach_hang`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `khach_hang`
@@ -322,7 +432,8 @@ CREATE TABLE IF NOT EXISTS `khach_hang` (
 
 INSERT INTO `khach_hang` (`ma_khach_hang`, `ten_khach_hang`, `email`, `so_dien_thoai`, `mat_khau`) VALUES
 (1, 'foodapp', 'foodapp@foodapp.com', '0988192713', '1234567'),
-(2, 'tung', 'tung@gmail.com', '0988192713', '123');
+(2, 'tung', 'tung@gmail.com', '0988192713', '123'),
+(3, 'tung2', 'tung2@gmail.com', '123', '123');
 
 -- --------------------------------------------------------
 
@@ -360,7 +471,14 @@ CREATE TABLE IF NOT EXISTS `phuong_thuc_thanh_toan` (
   `ma_phuong_thuc` int(11) NOT NULL AUTO_INCREMENT,
   `ten_phuong_thuc` varchar(256) NOT NULL,
   PRIMARY KEY (`ma_phuong_thuc`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `phuong_thuc_thanh_toan`
+--
+
+INSERT INTO `phuong_thuc_thanh_toan` (`ma_phuong_thuc`, `ten_phuong_thuc`) VALUES
+(1, 'COD');
 
 -- --------------------------------------------------------
 
@@ -435,7 +553,7 @@ CREATE TABLE IF NOT EXISTS `san_pham` (
 
 INSERT INTO `san_pham` (`ma_san_pham`, `ten_san_pham`, `don_gia`, `so_lan_dat`, `ten_nhom_san_pham`, `mo_ta`, `anh_minh_hoa`, `ma_cua_hang`, `trang_thai_san_pham`) VALUES
 (1, 'Thịt gà', 11000, 0, 'Món chính', NULL, 'anhMinhHoa11.jpg', 2, 1),
-(2, 'Thịt gà', 11000, 0, 'Món chính', NULL, 'anhMinhHoa11.jpg', 2, 1);
+(2, 'Thịt bò', 11000, 0, 'Món chính', NULL, 'anhMinhHoa11.jpg', 2, 1);
 
 -- --------------------------------------------------------
 
@@ -519,7 +637,14 @@ CREATE TABLE IF NOT EXISTS `van_chuyen` (
   `phi_van_chuyen` int(11) NOT NULL,
   `mo_ta` varchar(256) DEFAULT NULL,
   PRIMARY KEY (`ma_van_chuyen`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `van_chuyen`
+--
+
+INSERT INTO `van_chuyen` (`ma_van_chuyen`, `loai_van_chuyen`, `phi_van_chuyen`, `mo_ta`) VALUES
+(1, 'Bình thường', 5000, NULL);
 
 --
 -- Constraints for dumped tables

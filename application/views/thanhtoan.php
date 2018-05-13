@@ -167,24 +167,35 @@
   ["gio"]=> 
   ["ghiChu"]=> 
 } --> 
-    <form action="<?php echo base_url(); ?>dathang/saveAll" method = "POST">
+    <form action="<?php echo base_url(); ?>dathang/saveAll" method = "POST" onsubmit="return xoaGioHang();">
         <input type="hidden" id="tongTienThanhToan" name="tongTienThanhToan" value="<?php echo($tong); ?>"/>
         <input type="hidden" id="diaChiCuaHang" name="diaChiCuaHang" value="<?php echo $thanhtoan['diaChiCuaHang']; ?> "/>
         <input type="hidden" id="address" name="address" value="<?php echo $thanhtoan['diaChi']; ?>"/>
         <input type="hidden" id="lat" name="lat" value="<?php echo $cuaHang[0]['lat']; ?>"/>
         <input type="hidden" id="lng" name="lng" value="<?php echo $cuaHang[0]['lng']; ?>"/>
         <input type="hidden" id="maCuaHang" name="maCuaHang" value="<?php echo $thanhtoan['maCuaHang']; ?>"/>
-        <input type="hidden" id="maTaiKhoan" value="<?php echo $thanhtoan['maTaiKhoan']; ?>"/>
-        <input type="hidden"  name="maTaiKhoan" value="<?php echo $thanhtoan['maTaiKhoan']; ?>"/>
+        <input type="hidden" id="maTaiKhoan" name="maTaiKhoan" value="<?php echo $thanhtoan['maTaiKhoan']; ?>"/>
         <input type="hidden" id="ngay" name="ngay" value="<?php echo $thanhtoan['ngay']; ?>"/>
         <input type="hidden" id="gio" name="gio" value="<?php echo $thanhtoan['gio']; ?>"/>
         <input type="hidden" id="soDT" name="soDT" value="<?php echo $thanhtoan['soDT']; ?>"/>
         <input type="hidden" id="ghiChu" name="ghiChu" value="<?php echo $thanhtoan['ghiChu']; ?>"/>
         <input type="hidden" name="latHome" id="latHome"/>
         <input type="hidden" name="lngHome" id="lngHome"/> 
-        <!-- <input type="hidden" name="khoangCach" id="khoangCach1" value="distance" />  -->
+        <input type="hidden" name="tongChiPhiVanChuyen" id="tongChiPhiVanChuyen" value="5000"/>  
         <input type="submit" class="btn btn-primary" value="Đặt hàng"/>
+        <script>
+            function xoaGioHang(){
+                alert("AA");
+                var maCuaHang = document.getElementById("maCuaHang").value;
+                var maTaiKhoan = document.getElementById("maTaiKhoan").value;
+                localStorage.removeItem("gioHang" + maCuaHang + "_" + maTaiKhoan);
+                $.notify("Đặt hàng thành công", "success");
+                
+                return true;
+            }
+        </script>
     </form>
+       
         <br>
 
         <script>
@@ -192,11 +203,6 @@
                 return numberStr.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
             }
 
-            document.getElementById("maTaiKhoan").value = localStorage.getItem("maTaiKhoan");
-            var maCuaHang = document.getElementById("maCuaHang").value;
-            var maTaiKhoan = document.getElementById("maTaiKhoan").value;
-
-            var list = localStorage.getItem("gioHang" + maCuaHang + "_" + maTaiKhoan);
             var latCuaHang = parseFloat(document.getElementById("lat").value);
             var lngCuaHang = parseFloat(document.getElementById("lng").value);
             var diemDen = {
@@ -306,6 +312,7 @@
 
                                 var node1 = document.createElement("p");
                                 var textnode1 = document.createTextNode("Tổng chi phí giao hàng: " + formatCurrency(parseFloat(distance.split(" ")[0]) * 5000 + "") + " VNĐ");
+                                document.getElementById("tongChiPhiVanChuyen").value = parseFloat(distance.split(" ")[0]) * 5000 + "";
                                 node1.appendChild(textnode1);
                                 document.getElementById("tinhTien").appendChild(node1);
 
