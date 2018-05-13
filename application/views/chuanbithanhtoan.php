@@ -1,15 +1,4 @@
-<%-- 
-    Document   : chuanbithanhtoan
-    Created on : Nov 26, 2017, 12:33:21 PM
-    Author     : tungthai13
---%>
 
-<%@page import="java.text.NumberFormat"%>
-<%@page import="java.text.DecimalFormat"%>
-<%@page import="java.util.Locale"%>
-<%@page import="entity.MonAnChon"%>
-<%@page import="java.util.List"%>
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -72,16 +61,16 @@
         </style>
         <link href="css/bootstrap.min.css" rel="stylesheet">
     </head>
-    <body>
-
+    <body> 
         <div class="row">
             <div class="container">
                 <h2>Thời gian và địa chỉ giao hàng</h2>
-                <form action="ThanhToan" method="POST" onsubmit="return validateForm()">
-                    <input type="hidden" name="maCuaHang" id="maCuaHang" value=${maCuaHang}/>
-                    <input type="hidden" name="json" id="json" value=""/>
-                    <input type="hidden" name="tenCuaHang" value="${tenCuaHang}"/>
-                    <input type="hidden" name="diaChiCuaHang" value="${diaChiCuaHang}"/>
+                <form action="<?php echo base_url(); ?>Dathang/thanhtoan" method="POST">
+                    <input type="hidden" name="maTaiKhoan" id="maCuaHang" value="<?=$datMon['maTaiKhoan'] ?>"/>
+                    <input type="hidden" name="maCuaHang" id="maCuaHang" value="<?=$datMon['maCuaHang'] ?>"/>
+                    <input type="hidden" name="json"  value=""/>
+                    <input type="hidden" name="tenCuaHang" value="<?=$datMon['tenCuaHang'] ?>"/>
+                    <input type="hidden" name="diaChiCuaHang" value="<?=$datMon['diaChiCuaHang'] ?>"/>
 
                     <div class="form-group">
                         <label for="soDT">Số điện thoại</label>
@@ -168,6 +157,6 @@
                 });
             }
         }
-    </script>
+    </script> 
 
 </html>

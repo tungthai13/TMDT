@@ -1,24 +1,10 @@
-<%-- 
-    Document   : thanhtoan
-    Created on : Dec 7, 2017, 9:26:56 AM
-    Author     : tungthai
---%>
 
-<%@page import="dao.CuaHangDAO"%>
-<%@page import="entity.CuaHang"%>
-<%@page import="entity.MonAnChon"%>
-<%@page import="java.util.List"%>
-<%@page import="java.util.Locale"%>
-<%@page import="java.text.DecimalFormat"%>
-<%@page import="java.text.NumberFormat"%>
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <script src="js/checkout.js"></script>
-
-        <title>JSP Page</title>
+        <?php include 'head.php';?>
 
         <style>
 
@@ -78,15 +64,14 @@
                 display:none;
             }
         </style>
-        <link href="css/bootstrap.min.css" rel="stylesheet">
-        <script src="js/jquery-3.2.1.min.js"></script>
         <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false&key=AIzaSyA84UAqytUxGlER7GBT2E723Wjo3Pwlafg"></script>
     </head>
     <body>
-
+    
         <div id="map"></div>
         <input type="hidden" name="latHome" id="latHome"/>
         <input type="hidden" name="lngHome" id="lngHome"/>
+        <input type="hidden" name="datMon" value="" />
         <div id="directionsPanel"></div>
 
         <br>
@@ -96,96 +81,110 @@
         <br>
 
         <h2>Thông tin giao hàng</h2>
+  <!--       array(10) {
+  ["maTaiKhoan"]=> 
+  ["maCuaHang"]=> 
+  ["json"]=> 
+  ["tenCuaHang"]=> 
+  ["diaChiCuaHang"]=> 
+  ["soDT"]=> 
+  ["diaChi"]=> 
+  ["ngay"]=> 
+  ["gio"]=> 
+  ["ghiChu"]=> 
+} -->
         <table>
             <tr>
                 <td class="thongTin">Số điện thoại:</td>
                 <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
-                <td><strong>${soDT}</strong></td>
+                <td><strong><?=$thanhtoan['soDT']?></strong></td>
             </tr>
             <tr>
                 <td class="thongTin">Địa chỉ:</td>
                 <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
-                <td><strong>${diaChi}</strong></td>
+                <td><strong><?=$thanhtoan['diaChi']?></strong></td>
             </tr>
             <tr>
                 <td class="thongTin">Ngày giao hàng:</td>
                 <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
-                <td><strong>${ngay}</strong></td>
+                <td><strong><?=$thanhtoan['ngay']?></strong></td>
             </tr>
             <tr>
                 <td class="thongTin">Thời gian giao hàng:</td>
                 <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
-                <td><strong>${gio}</strong></td>
+                <td><strong><?=$thanhtoan['gio']?></strong></td>
             </tr>
             <tr>
                 <td class="thongTin">Ghi chú đơn hàng:</td>
                 <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
-                <td><strong>${ghiChu}</strong></td>
+                <td><strong><?=$thanhtoan['ghiChu']?></strong></td>
             </tr>
         </table>
 
         <br>
 
         <div id="khoangCach">
-            <p>Phí vận chuyển: 5000 đ/km</p>
+            <p>Phí vận chuyển: 5000 đ/km </p>
         </div>
 
         <br>
 
         <h2>Chi tiết đơn hàng</h2>
-        <h3><%=request.getAttribute("tenCuaHang")%></h3>
-        <p><%=request.getAttribute("diaChiCuaHang")%></p>
-        <table class="table table-striped">
+        <h3><?php echo $thanhtoan['diaChiCuaHang']; ?></h3>
+        <p><p><?php echo $thanhtoan['tenCuaHang'] ?></p></p>
+        <table class="table " style="border: 1px solid #CCC;">
             <tr>
                 <th>STT</th>
                 <th>Tên món</th>
                 <th>Số lượng</th>
                 <th>Đơn giá</th>
                 <th>Tổng Giá</th>
-            </tr>
-
-            <%
-                String maCuaHang = request.getParameter("maCuaHang");
-                maCuaHang = maCuaHang.substring(0, maCuaHang.length() - 1);
-                CuaHang ch = new CuaHangDAO().getCuaHang(Integer.parseInt(maCuaHang));
-                Double lat = ch.getLat();
-                Double lng = ch.getLng();
-                NumberFormat nf = NumberFormat.getNumberInstance(Locale.GERMAN);
-                DecimalFormat format = (DecimalFormat) nf;
-                int tongTienThanhToan = 0;
-                List<MonAnChon> gioHang = (List<MonAnChon>) request.getAttribute("gioHang");
-
-                int i = 1;
-                for (MonAnChon item : gioHang) {
-                    tongTienThanhToan += item.tongGia();
-            %>
-            <tr>
-                <td><%=i%></td>
-                <td><%=item.getTenMon()%></td>
-                <td><%=item.getSoLuong()%></td>
-                <td><%=format.format(item.getDonGia())%> VNĐ</td>
-                <td><%=format.format(item.tongGia())%> VNĐ</td>
-            </tr>
-
-            <% i++;
-                }%>
+            </tr>  
+            <?php $count = 0;$tong = 0;foreach ( $json as $tt) { $count++;?>
+                 
+            
+            <tr> 
+                <td><?php echo $count; ?></td>
+                <td><?php echo $tt['tenSanPham']; ?></td>
+                <td><?php echo $tt['soLuong']; ?></td>
+                <td><?php echo $tt['donGia']; ?></td> 
+                <td><?php $tong = $tong +$tt['donGia']*$tt['soLuong'];  echo $tt['donGia']*$tt['soLuong']; ?></td> 
+            </tr> 
+            <?php } ?>
         </table>
         <div id="tinhTien">
-            <strong>Tổng: <%=format.format(tongTienThanhToan)%> VNĐ</strong>
+            <strong>Tổng: <?php echo $tong; ?>  VNĐ</strong>
         </div>
-
-        <input type="hidden" id="tongTienThanhToan" value="<%=tongTienThanhToan%>"/>
-        <input type="hidden" id="diaChiCuaHang" value="<%=request.getAttribute("diaChiCuaHang")%>"/>
-        <input type="hidden" id="address" value="${diaChi}"/>
-        <input type="hidden" id="lat" value="<%=lat%>"/>
-        <input type="hidden" id="lng" value="<%=lng%>"/>
-        <input type="hidden" id="maCuaHang" value="<%=maCuaHang%>"/>
-        <input type="hidden" id="maTaiKhoan" value=""/>
-        <input type="hidden" id="ngay" value="${ngay}"/>
-        <input type="hidden" id="gio" value="${gio}"/>
-        <input type="hidden" id="soDT" value="${soDT}"/>
-        <input type="hidden" id="ghiChu" value="${ghiChu}"/>
-
+         <!--       array(10) {
+  ["maTaiKhoan"]=> 
+  ["maCuaHang"]=> 
+  ["json"]=> 
+  ["tenCuaHang"]=> 
+  ["diaChiCuaHang"]=> 
+  ["soDT"]=> 
+  ["diaChi"]=> 
+  ["ngay"]=> 
+  ["gio"]=> 
+  ["ghiChu"]=> 
+} --> 
+    <form action="<?php echo base_url(); ?>dathang/saveAll" method = "POST">
+        <input type="hidden" id="tongTienThanhToan" name="tongTienThanhToan" value="<?php echo($tong); ?>"/>
+        <input type="hidden" id="diaChiCuaHang" name="diaChiCuaHang" value="<?php echo $thanhtoan['diaChiCuaHang']; ?> "/>
+        <input type="hidden" id="address" name="address" value="<?php echo $thanhtoan['diaChi']; ?>"/>
+        <input type="hidden" id="lat" name="lat" value="<?php echo $cuaHang[0]['lat']; ?>"/>
+        <input type="hidden" id="lng" name="lng" value="<?php echo $cuaHang[0]['lng']; ?>"/>
+        <input type="hidden" id="maCuaHang" name="maCuaHang" value="<?php echo $thanhtoan['maCuaHang']; ?>"/>
+        <input type="hidden" id="maTaiKhoan" value="<?php echo $thanhtoan['maTaiKhoan']; ?>"/>
+        <input type="hidden"  name="maTaiKhoan" value="<?php echo $thanhtoan['maTaiKhoan']; ?>"/>
+        <input type="hidden" id="ngay" name="ngay" value="<?php echo $thanhtoan['ngay']; ?>"/>
+        <input type="hidden" id="gio" name="gio" value="<?php echo $thanhtoan['gio']; ?>"/>
+        <input type="hidden" id="soDT" name="soDT" value="<?php echo $thanhtoan['soDT']; ?>"/>
+        <input type="hidden" id="ghiChu" name="ghiChu" value="<?php echo $thanhtoan['ghiChu']; ?>"/>
+        <input type="hidden" name="latHome" id="latHome"/>
+        <input type="hidden" name="lngHome" id="lngHome"/> 
+        <!-- <input type="hidden" name="khoangCach" id="khoangCach1" value="distance" />  -->
+        <input type="submit" class="btn btn-primary" value="Đặt hàng"/>
+    </form>
         <br>
 
         <script>
@@ -301,7 +300,9 @@
                                 var node = document.createElement("p");
                                 var textnode = document.createTextNode("Khoảng cách đến cửa hàng: " + distance);
                                 node.appendChild(textnode);
-                                document.getElementById("khoangCach").appendChild(node);
+                                document.getElementById("khoangCach").appendChild(node); 
+
+
 
                                 var node1 = document.createElement("p");
                                 var textnode1 = document.createTextNode("Tổng chi phí giao hàng: " + formatCurrency(parseFloat(distance.split(" ")[0]) * 5000 + "") + " VNĐ");
