@@ -173,6 +173,7 @@
         <div id="tinhTien">
             <strong>Tổng: <%=format.format(tongTienThanhToan)%> VNĐ</strong>
         </div>
+<<<<<<< HEAD
 
         <input type="hidden" id="tongTienThanhToan" value="<%=tongTienThanhToan%>"/>
         <input type="hidden" id="diaChiCuaHang" value="<%=request.getAttribute("diaChiCuaHang")%>"/>
@@ -186,6 +187,38 @@
         <input type="hidden" id="soDT" value="${soDT}"/>
         <input type="hidden" id="ghiChu" value="${ghiChu}"/>
 
+=======
+         <!--       array(10) {
+  ["maTaiKhoan"]=> 
+  ["maCuaHang"]=> 
+  ["json"]=> 
+  ["tenCuaHang"]=> 
+  ["diaChiCuaHang"]=> 
+  ["soDT"]=> 
+  ["diaChi"]=> 
+  ["ngay"]=> 
+  ["gio"]=> 
+  ["ghiChu"]=> 
+} --> 
+    <form action="<?php echo base_url(); ?>dathang/saveAll" method = "POST">
+        <input type="hidden" id="tongTienThanhToan" name="tongTienThanhToan" value="<?php echo($tong); ?>"/>
+        <input type="hidden" id="diaChiCuaHang" name="diaChiCuaHang" value="<?php echo $thanhtoan['diaChiCuaHang']; ?> "/>
+        <input type="hidden" id="address" name="address" value="<?php echo $thanhtoan['diaChi']; ?>"/>
+        <input type="hidden" id="lat" name="lat" value="<?php echo $cuaHang[0]['lat']; ?>"/>
+        <input type="hidden" id="lng" name="lng" value="<?php echo $cuaHang[0]['lng']; ?>"/>
+        <input type="hidden" id="maCuaHang" name="maCuaHang" value="<?php echo $thanhtoan['maCuaHang']; ?>"/>
+        <input type="hidden" id="maTaiKhoan" value="<?php echo $thanhtoan['maTaiKhoan']; ?>"/>
+        <input type="hidden"  name="maTaiKhoan" value="<?php echo $thanhtoan['maTaiKhoan']; ?>"/>
+        <input type="hidden" id="ngay" name="ngay" value="<?php echo $thanhtoan['ngay']; ?>"/>
+        <input type="hidden" id="gio" name="gio" value="<?php echo $thanhtoan['gio']; ?>"/>
+        <input type="hidden" id="soDT" name="soDT" value="<?php echo $thanhtoan['soDT']; ?>"/>
+        <input type="hidden" id="ghiChu" name="ghiChu" value="<?php echo $thanhtoan['ghiChu']; ?>"/>
+        <input type="hidden" name="latHome" id="latHome"/>
+        <input type="hidden" name="lngHome" id="lngHome"/> 
+        <!-- <input type="hidden" name="khoangCach" id="khoangCach1" value="distance" />  -->
+        <input type="submit" class="btn btn-primary" value="Đặt hàng"/>
+    </form>
+>>>>>>> parent of a6e66a2... Sửa xong
         <br>
 
         <script>
