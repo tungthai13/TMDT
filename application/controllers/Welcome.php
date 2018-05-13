@@ -23,6 +23,49 @@ class Welcome extends CI_Controller {
         $this->load->helper('url');
         $this->load->database();
         
+        //Giới thiệu cửa hàng
+        if(isset($_SESSION['user'])){
+            $maTaiKhoan = $_SESSION['user'][0]['ma_khach_hang'];
+            
+            //Bước 1: Lấy danh sách các mã của hàng mà khách hàng này đã đặt mua
+            //Kêt quả trả về Danh sách các mã cửa hàng => chuỗi dưới dạng: 1,2,3,4,5,6
+            if (mysqli_more_results($this->db->conn_id)) {
+                mysqli_next_result($this->db->conn_id);
+            }
+            $query1 = $this->db->query("call danhSachCuaHangDaDat(?)", $maTaiKhoan);
+            $danhSachCuaHangDaDat = "";
+            foreach($query1->result() as $row){
+                $danhSachCuaHangDaDat .= $row->ma_cua_hang . ",";
+            }
+            
+            $danhSachCuaHangDaDat =  substr($danhSachCuaHangDaDat, 0, -1); //Xóa dấu phẩy cuối cùng trong chuỗi
+            
+            //Bước 2: Lấy danh sách các mã loại của hàng từ danh sách cửa hàng bước 1
+            //Sắp xếp giảm dần theo số lượng đặt mua, lấy 3 giá trị đầu tiên
+            //Danh sách các mã => chuỗi dưới dạng: 1,2,3,4,5,6    
+            if (mysqli_more_results($this->db->conn_id)) {
+                mysqli_next_result($this->db->conn_id);
+            }
+            $array2['arr'] = $danhSachCuaHangDaDat;
+            $array2['maTaiKhoan'] = $maTaiKhoan;
+            $query2 = $this->db->query("call danhSachLoaiCuaHangDaDat(?,?)", $array2);
+            
+            $danhSachLoaiCuaHangDaDat = "";
+            foreach($query2->result() as $row){
+                $danhSachLoaiCuaHangDaDat .= $row->ma_loai_cua_hang . ",";
+            }
+            
+            $danhSachLoaiCuaHangDaDat =  substr($danhSachLoaiCuaHangDaDat, 0, -1); //Xóa dấu phẩy cuối cùng trong chuỗi
+            
+            //Bước 3: Chọn ngẫu nhiên ra 4 cửa hàng ứng với 3 loại cửa hàng được khách hàng mua nhiều nhất
+            if (mysqli_more_results($this->db->conn_id)) {
+                mysqli_next_result($this->db->conn_id);
+            }
+
+            $query3 = $this->db->query("call danhSachCuaHangGoiY(?)", $maTaiKhoan);
+            $data["danhSachCuaHangGoiY"] = $query3;  
+        }
+        
         if(isset($_GET['timKiem'])){
             $timKiem = $this->input->get("timKiem");
             $data['timKiem'] = $timKiem;
@@ -172,54 +215,4 @@ class Welcome extends CI_Controller {
 		$this->load->view('welcome_message', $data);
 	}
     
-    public function timKiem(){
-        $this->load->helper('url');
-        $this->load->database();        
-        
-        $timKiem = $this->input->get("timKiem");
-        $timKiem = "%" . $timKiem . "%";
-        if (mysqli_more_results($this->db->conn_id)) {
-            mysqli_next_result($this->db->conn_id);
-        }
-        //Số cửa hàng hiển thị trong 1 trang là 9
-        $soPhanTuTrongMotTrang = 9;
-        
-        //Đếm tổng số lượng cửa hàng trên hệ thống
-        $query = $this->db->query("call tongSoCuaHangTimKiem(?)", $timKiem);
-        $data["tongSoCuaHang"] = $query->row()->tongSoCuaHang;
-        
-        //Tính toán số lượng trang hiển thị cửa hàng = tổng số cửa hàng / số cửa hàng trên 1 trang
-        $data["tongSoTrang"] = $data["tongSoCuaHang"] / $soPhanTuTrongMotTrang;
-    
-        if ($data["tongSoTrang"] <= 1) {
-            $data["tongSoTrang"] = 1;
-        } else if ($data["tongSoTrang"] % $soPhanTuTrongMotTrang != 0) {
-            $data["tongSoTrang"] += 1;
-        }
-        
-        //Lấy ra trang hiển thị hiện tại
-        $trangHienTai = $this->input->get("trangHienTai");
-        // Nếu chưa chọn trang thì mặc định hiển thị trang số 1
-        if ($trangHienTai == null) {
-            $trangHienTai = "1";
-        } 
-        $data["trangHienTai"] = $trangHienTai;
-        
-        if (mysqli_more_results($this->db->conn_id)) {
-            mysqli_next_result($this->db->conn_id);
-        }
-            
-        $array["phanTuBatDau"] = (intval($trangHienTai) - 1)*$soPhanTuTrongMotTrang;
-        $array["phanTuTrongMotTrang"] = $soPhanTuTrongMotTrang;     
-        $array["timKiem"] = $timKiem;
-        $data['danhSachCuaHang'] = $this->db->query("call tatCaCuaHangTimKiem(?,?,?)", $array);
-        
-        //Lấy ra 3 cửa hàng mới nhất trong hệ thống để hiện ra trên slide
-        if (mysqli_more_results($this->db->conn_id)) {
-            mysqli_next_result($this->db->conn_id);
-        }
-        $data['danhSachCuaHangSlide'] = $this->db->query("call danhSachCuaHangSlide()");
-               
-		$this->load->view('welcome_message', $data);
-    }
 }

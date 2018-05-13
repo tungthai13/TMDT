@@ -177,12 +177,29 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 <input type="file" class="form-control" name="picture">
                             </div>
 
-<!--                            <button type="submit" class="btn btn-primary">Thêm cửa hàng</button>-->
-                                
-                                <div id="nutSubmit">
-                                    <input id="submit" type="button" class="btn btn-info" value="Định vị tọa độ cửa hàng" onclick="themNutSubmit()">
+                            <label for="">Loại cửa hàng:</label>
+                            <ul class="list-group checked-list-box">
+
+                            <?php 
+                            
+                                foreach($danhSachLoaiCuaHang->result() as $row): 
+                            ?>
+
+                            <li class="list-group-item">
+                                <input type="checkbox" name="loaiCuaHang[]" value="<?php echo $row->ma_loai_cua_hang ?>">
+                                <?php echo $row->ten_loai_cua_hang ?>
+                            </li>
+
+                            <?php endforeach; ?>
+
+                            </ul>
+                            
+                            <br>
+                            
+                            <div id="nutSubmit">
+                                <input id="submit" type="button" class="btn btn-info" value="Định vị tọa độ cửa hàng" onclick="themNutSubmit()">
                                     &nbsp;&nbsp;&nbsp;&nbsp;
-                                </div>
+                            </div>
                         </form>
                     </div>
                 </div>

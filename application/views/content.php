@@ -35,6 +35,30 @@
 
         <!--Tab 1 content-->
         <div class="row product w3-container w3-display-container city tabLondon" id="London" <?php if(isset($timKiem)): ?>style="display:none"<?php endif; ?>>
+            <!--Hiện danh sách gợi ý nếu đã đăng nhập-->
+            <?php if(isset($_SESSION['user'])){ if(isset($danhSachCuaHangGoiY)) { ?>
+            <div class="col-md-12" style="margin-left: 5px; margin-right: 5px;">
+                <h2> Gợi ý cửa hàng </h2>
+            </div>
+            <div class="row" style="margin-left: 5px; margin-right: 5px;">
+                <?php foreach( $danhSachCuaHangGoiY->result() as $row ) : ?>
+                <div class="col-md-3" >  
+                    <div class="item-product" style="height: 372px;">
+                        <div class="image">
+                            <a href="<?php echo base_url();?>DatMon/index?maCuaHang=<?php echo $row->ma_cua_hang ?>"><img src="<?php echo base_url() ?>image/<?php echo $row->logo ?>" alt=""></a>
+
+                        </div>
+                        <div class="title">    
+                            <strong><?php echo $row->ten_cua_hang ?></strong><br>
+                        </div>
+                    </div>
+                </div>
+                <?php endforeach; ?>  
+            </div>
+            
+            <?php } } ?>
+            
+            
             <!--Kiểm tra xem có chọn quận huyện nào không-->
             <?php if (isset($stringMaQuanHuyen) || is_array($quanHuyen)){ ?>
             
@@ -42,8 +66,11 @@
                 <h2> Lọc kết quả hiển thị theo quận huyện: <?php echo $stringTenQuanHuyen ?> </h2>
             </div>
             
+            <?php } else { ?>
+            <div class="col-md-12">
+                <h2> Danh sách tất cả cửa hàng </h2>
+            </div>
             <?php } ?>
-            
             <?php foreach( $danhSachCuaHang->result() as $row ) : ?>
                
                 <!--Store Item-->

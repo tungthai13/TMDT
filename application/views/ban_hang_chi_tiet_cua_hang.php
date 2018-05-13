@@ -209,7 +209,25 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 <br>
                                 <input type="file" class="form-control" name="picture">
                             </div>
+                            <label for="picture">Loại cửa hàng:</label>
+                            <?php 
+                                foreach($danhSachLoaiCuaHang->result() as $row): 
+                            ?>
+                            
+                            <?php if (in_array($row->ma_loai_cua_hang, $danhSachMaLoaiCuaHang)){ ?>
+                            <li class="list-group-item">
+                                <input checked type="checkbox" name="loaiCuaHang[]" value="<?php echo $row->ma_loai_cua_hang ?>">
+                                <?php echo $row->ten_loai_cua_hang ?>
+                            </li>
+                            <?php } else { ?>
+                            <li class="list-group-item">
+                                <input type="checkbox" name="loaiCuaHang[]" value="<?php echo $row->ma_loai_cua_hang ?>">
+                                <?php echo $row->ten_loai_cua_hang ?>
+                            </li>
+                            <?php } ?>
 
+                            <?php endforeach; ?>
+                            <br>
 <!--                            <button type="submit" class="btn btn-primary">Thêm cửa hàng</button>-->
                                 
                                 <div id="nutSubmit">

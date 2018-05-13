@@ -54,6 +54,7 @@ class BanHang extends CI_Controller {
         $maSanPham = $this->input->get('maSanPham');
         $data['maCuaHang'] = $maCuaHang;
         $data['sanPham'] = $this->db->query("call chiTietSanPham(?)", $maSanPham);
+        
         $this->load->view('ban_hang_chi_tiet_san_pham', $data);
     }
     
@@ -162,6 +163,11 @@ class BanHang extends CI_Controller {
         $data["danhSachQuanHuyen"] = $this->db->query("call danhSachQuanHuyen(?)", 1);
         $data["maTaiKhoan"] = $this->input->get("maTaiKhoan");
         
+        if (mysqli_more_results($this->db->conn_id)) {
+            mysqli_next_result($this->db->conn_id);
+        }
+        $data['danhSachLoaiCuaHang'] = $this->db->query("call danhSachLoaiCuaHang()");
+        
         $this->load->view('ban_hang_them_cua_hang', $data);
     }
     
@@ -209,8 +215,25 @@ class BanHang extends CI_Controller {
         if (mysqli_more_results($this->db->conn_id)) {
             mysqli_next_result($this->db->conn_id);
         }
-        $this->db->query("call themCuaHang(?,?,?,?,?,?,?,?,?,?)", $data);
         
+        $this->db->query("call themCuaHang(?,?,?,?,?,?,?,?,?,?)", $data);
+        if (mysqli_more_results($this->db->conn_id)) {
+            mysqli_next_result($this->db->conn_id);
+        }
+        $query = $this->db->query("call layMaCuaHangVuaThem(?)", $data["maTaiKhoan"]);
+        $maCuaHang = $query->row()->ma_cua_hang;
+
+        $loaiCuaHang = $this->input->post("loaiCuaHang");
+        if (is_array($loaiCuaHang) || is_object($loaiCuaHang)){
+            foreach ($loaiCuaHang as $item){
+                $array['maCuaHang'] = $maCuaHang;
+                $array['maLoaiCuaHang'] = $item;
+                if (mysqli_more_results($this->db->conn_id)) {
+            mysqli_next_result($this->db->conn_id);
+        }
+                $this->db->query("call themCuaHangLoaiCuaHang(?,?)", $array);
+            } 
+        }
         
         $this->danhSachCuaHang($data["maTaiKhoan"]);
     }
@@ -228,6 +251,23 @@ class BanHang extends CI_Controller {
             mysqli_next_result($this->db->conn_id);
         }
         $data["cuaHang"] = $this->db->query("call timCuaHangBangMaCuaHang(?)", $maCuaHang);
+        
+        if (mysqli_more_results($this->db->conn_id)) {
+            mysqli_next_result($this->db->conn_id);
+        }
+        $data['danhSachLoaiCuaHang'] = $this->db->query("call danhSachLoaiCuaHang()");
+        
+        if (mysqli_more_results($this->db->conn_id)) {
+            mysqli_next_result($this->db->conn_id);
+        }
+        $sql = $this->db->query("call layTatCaMaLoaiCuaHang(?)", $maCuaHang);
+        $danhSachMaLoaiCuaHang = [];
+        foreach($sql->result() as $row){
+            array_push($danhSachMaLoaiCuaHang, $row->ma_loai_cua_hang);
+        }
+        $data["danhSachMaLoaiCuaHang"] = $danhSachMaLoaiCuaHang;
+        
+        
         $this->load->view("ban_hang_chi_tiet_cua_hang", $data);
     }
     
@@ -279,6 +319,22 @@ class BanHang extends CI_Controller {
         }
         $this->db->query("call capNhatCuaHang(?,?,?,?,?,?,?,?,?,?)", $data);
         
+        $loaiCuaHang = $this->input->post("loaiCuaHang");
+        if (is_array($loaiCuaHang) || is_object($loaiCuaHang)){
+            if (mysqli_more_results($this->db->conn_id)) {
+                mysqli_next_result($this->db->conn_id);
+            }
+            $this->db->query("call xoaCuaHangLoaiCuaHang(?)", $data['maCuaHang']);
+            foreach ($loaiCuaHang as $item){
+                $array['maCuaHang'] = $data["maCuaHang"];
+                $array['maLoaiCuaHang'] = $item;
+                if (mysqli_more_results($this->db->conn_id)) {
+            mysqli_next_result($this->db->conn_id);
+        }
+                $this->db->query("call themCuaHangLoaiCuaHang(?,?)", $array);
+            } 
+        }
+        
         $this->danhSachCuaHang($maTaiKhoan);
     }
     
@@ -288,6 +344,15 @@ class BanHang extends CI_Controller {
         
         $data['maCuaHang'] = $this->input->post("maCuaHang");
         $maTaiKhoan = $this->input->post("maTaiKhoan");
+        
+        if (mysqli_more_results($this->db->conn_id)) {
+            mysqli_next_result($this->db->conn_id);
+        }
+        $this->db->query("call xoaCuaHangLoaiCuaHang(?)", $data['maCuaHang']);
+        
+        if (mysqli_more_results($this->db->conn_id)) {
+            mysqli_next_result($this->db->conn_id);
+        }
         $this->db->query("call xoaCuaHang(?)", $data['maCuaHang']);
         
         $this->danhSachCuaHang($maTaiKhoan);

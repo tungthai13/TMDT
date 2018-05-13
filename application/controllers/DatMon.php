@@ -38,4 +38,9 @@ class DatMon extends CI_Controller {
         
         $this->load->view('dat_mon', $data);
 	}
+    
+    public function test(){
+        $data["a"] = $this->input->post("json");
+        $this->load->view('test', $data);
+    }
 }

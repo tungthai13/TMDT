@@ -98,7 +98,7 @@
 
                             </div>
                             <div class="col-md-4 price">
-                                <form action="#" method="POST" onsubmit="return kiemTraGioHangRong();">
+                                <form action="<?php echo base_url(); ?>DatMon/test" method="POST" onsubmit="return kiemTraGioHangRong();">
                                     <!--Mã cửa hàng-->
                                     <input type="hidden" name="maTaiKhoan" id="maTaiKhoan" value="1"/>
                                     <input type="hidden" name="maCuaHang" id="maCuaHang" value="<?php echo $row->ma_cua_hang ?>"/>
