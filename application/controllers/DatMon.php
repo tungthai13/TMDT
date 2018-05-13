@@ -17,14 +17,23 @@ class DatMon extends CI_Controller {
 	 * So any other public methods not prefixed with an underscore will
 	 * map to /index.php/welcome/<method_name>
 	 * @see https://codeigniter.com/user_guide/general/urls.html
-	 */
-	public function index()
+	 */ 
+	public function __construct()
 	{
-        $this->load->helper('url');
+		parent::__construct();
+		$this->load->helper('url');
         $this->load->database();
-        $data['maTaiKhoan'] = $this->input->post('maTaiKhoan'); 
-        $data['maCuaHang'] = $this->input->get('maCuaHang');  
+		$this->load->model('Giohangs');
+		
+	}
+	public function index()
+	{ 
+		if(isset($_SESSION['user'])){$data['maTaiKhoan'] = $_SESSION['user'][0]['ma_khach_hang'];
+
+		 } else { $data['maTaiKhoan'] = 0;}  
         
+        $data['maCuaHang'] = $this->input->get('maCuaHang');  
+        $data['maGioHang']  = $this->Giohangs->getMaGioHang($data['maTaiKhoan']);
         if (mysqli_more_results($this->db->conn_id)) {
             mysqli_next_result($this->db->conn_id);
         }
@@ -35,7 +44,26 @@ class DatMon extends CI_Controller {
             mysqli_next_result($this->db->conn_id);
         }
         $data['sanPham'] = $this->db->query("call danhSachSanPham(?)", $data['maCuaHang']);
+
+        if (mysqli_more_results($this->db->conn_id)) {
+            mysqli_next_result($this->db->conn_id);
+        }
+        $array['maTaiKhoan'] = $data['maTaiKhoan'];
+        $array['maCuaHang'] = $data['maCuaHang'];
+        $chiTietGioHang = $this->db->query("call layChiTietGioHang(?,?)", $array);
+
+        $resultSet = Array();
+		    foreach($chiTietGioHang->result() as $result) {
+		    	$result1 = Array();
+		    	$result1['maSanPham'] = $result->ma_san_pham;
+		    	$result1['tenSanPham'] = $result->ten_san_pham;
+		    	$result1['soLuong'] = intval($result->so_luong);
+		    	$result1['donGia'] = $result->don_gia;
+		       $resultSet[] = $result1;
+		    }
+		$data['chiTietGioHang'] = json_encode($resultSet);
+		$data['a'] = $resultSet;
         
         $this->load->view('dat_mon', $data);
-	}
+	}  
 }
