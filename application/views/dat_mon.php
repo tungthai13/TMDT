@@ -56,11 +56,8 @@
             $row = $cuaHang->row();
         ?>
 
-        <input type="hidden" id="tenCuaHang" value="<?php echo $row->ten_cua_hang ?>"/>
-        <input type="hidden" id="diaChiCuaHang" value="<?php echo $row->dia_chi ?>"/>
         <input type="hidden" id="diemCham" value=""/>
-        <input type="hidden" id="maTaiKhoan" value="<?php if(isset($_SESSION['user'])){echo $_SESSION['user'][0]['ma_khach_hang'];}else{echo 'false';}  ?>"/>
-        <input type="hidden" id="gioHang<?php echo $row->ma_cua_hang ?>_<?php if(isset($_SESSION['user'])){echo $_SESSION['user'][0]['ma_khach_hang'];} ?>" value='<?php echo $chiTietGioHang ?>' />
+        <input type="hidden" id="gioHang<?php echo $row->ma_cua_hang ?>_<?php if(isset($_SESSION['user'])){echo $_SESSION['user'][0]['ma_khach_hang'];} else {echo 'false';} ?>" value='<?php echo $chiTietGioHang ?>' />
         
         <div id="all">
             <!--menu-->
@@ -106,7 +103,6 @@
                                 <form action="<?php echo site_url('dathang'); ?>" method="POST" onsubmit="return kiemTraGioHangRong();">
                                     <!--Mã cửa hàng-->
                                     <input type="hidden" name="maTaiKhoan" id="maTaiKhoan" value="<?php if(isset($_SESSION['user'])){echo $_SESSION['user'][0]['ma_khach_hang'];}else{echo 'false';}  ?>"/>
-                                    <input type="hidden" name="maCuaHang" id="maCuaHang" value="<?php echo $row->ma_cua_hang ?>"/>
                                     <input type="hidden" id="tenCuaHang" name="tenCuaHang" value="<?php echo $row->ten_cua_hang ?>"/>
                                     <input type="hidden" id="diaChiCuaHang" name="diaChiCuaHang" value="<?php echo $row->dia_chi ?>"/>
                                     <table class="table">
@@ -131,17 +127,16 @@
                                         </tbody>
                                     </table>
                                 </form>
-                                <?php if (isset($_SESSION['user'])) {?>
-                                    <form action="<?php echo base_url(); ?>giohang/luu" method="POST" onsubmit="return kiemTraGioHangRong();">
-    <input type="hidden" name="ma_gio_hang" value="<?php echo$maGioHang['ma_gio_hang']; ?>">
-    <input type="hidden" name="ma_cua_hang" value="<?php echo$row->ma_cua_hang; ?>" >
-    <input type="hidden" name="ma_cua_hang" value="<?php echo$row->ma_cua_hang; ?>" >
-    <input type="hidden" id="json1" name="json" value=""/>
-    <input type="submit" name="" value="Lưu Giỏ Hàng" class="pull-right btn btn-success">
-    <input type="hidden" id="gioHang<?php echo $row->ma_cua_hang ?>_<?php if(isset($_SESSION['user'])){echo $_SESSION['user'][0]['ma_khach_hang'];} ?>" value='<?php echo $chiTietGioHang ?>' name="san_pham_gio" />
 
+                                    <form action="<?php echo base_url(); ?>giohang/luu" method="POST" onsubmit="return kiemTraGioHangRong();">
+                                        <input type="hidden" name="ma_gio_hang" value="<?php echo $maGioHang['ma_gio_hang']; ?>">
+                                        <input type="hidden" name="ma_cua_hang" id="maCuaHang" value="<?php echo $maCuaHang; ?>" >
+                                        <input type="hidden" id="json1" name="json" value=""/>
+                                        <?php if(isset($_SESSION['user'])){?>
+                                        <input type="submit" name="" value="Lưu Giỏ Hàng" class="pull-right btn btn-success">
+                                        <?php } ?>
+                                        <input type="hidden" id="gioHang<?php echo $row->ma_cua_hang ?>_<?php if(isset($_SESSION['user'])){echo $_SESSION['user'][0]['ma_khach_hang'];} ?>" value='<?php echo $chiTietGioHang ?>' name="san_pham_gio" />
                                     </form>
-                                <?php } ?>
                                    
                             </div>
                         </div>
@@ -218,7 +213,7 @@
 <script src="<?php echo base_url("js/chamdiem.js"); ?>"></script>
 
 <!--script xử lý giỏ hàng-->
-<script src="<?php echo base_url("js/xulygiohang.js?v=3"); ?>"></script>
+<script src="<?php echo base_url("js/xulygiohang.js?v=1"); ?>"></script>
 
 <!--Script xử lý google map-->
 <script src="<?php echo base_url("js/xulygooglemap.js"); ?>"></script>
